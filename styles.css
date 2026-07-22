@@ -122,16 +122,16 @@ ul, ol { list-style: none; padding: 0; }
    ============================================================= */
 [data-reveal], [data-reveal-hero] {
   opacity: 0; transform: translateY(34px) scale(.985);
-  transition: opacity 1s var(--ease-soft), transform 1s var(--ease-soft);
+  transition: opacity 1.4s var(--ease-soft), transform 1.4s var(--ease-soft);
 }
 [data-reveal].is-revealed, [data-reveal-hero].is-revealed { opacity: 1; transform: none; }
 [data-reveal-hero] {
   transform: translateY(44px) scale(.97);
-  transition: opacity 1.4s var(--ease-soft), transform 1.4s var(--ease-soft);
+  transition: opacity 1.8s var(--ease-soft), transform 1.8s var(--ease-soft);
 }
 [data-reveal-mask] {
   clip-path: inset(0 0 100% 0);
-  transition: clip-path 1.1s var(--ease-soft);
+  transition: clip-path 1.6s var(--ease-soft);
 }
 [data-reveal-mask].is-revealed { clip-path: inset(0); }
 
@@ -164,11 +164,11 @@ html:not(.is-ready) .loader { animation: loaderCssFailsafe 0s 8s forwards; }
    center (top half retreats up, bottom half retreats down) instead of a
    single top-to-bottom wipe. Opaque by default, no transform, so it's still
    the very first thing painted — zero chance of a flash of the page
-   underneath before JS runs. */
+   underneath before JS runs. Transición más lenta para efecto chill. */
 .loader-panel {
   position: absolute; left: 0; right: 0; height: 50%;
   background: var(--bg);
-  transition: transform 1.8s var(--ease-soft);
+  transition: transform 2.2s var(--ease-soft);
   will-change: transform;
 }
 .loader-panel--top { top: 0; }

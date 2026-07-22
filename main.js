@@ -104,9 +104,8 @@
 
     // Exit: once everything above has finished, the loader opens like a
     // curtain from the center (see .loader-panel in CSS) instead of wiping
-    // top-to-bottom. The buffer here just needs to clear the curtain's own
-    // transition (.6s brief / .6s quick, see CSS) plus a small margin.
-    var hideBuffer = isFirstPlay ? 650 : 750;
+    // top-to-bottom. Transición chill más lenta para una salida elegante.
+    var hideBuffer = isFirstPlay ? 900 : 750;
     schedule(function () {
       safe(onContentDone, "loader:onContentDone");
       loader.classList.add("is-hiding");
@@ -123,13 +122,18 @@
   ----------------------------------------------------------- */
   function revealSlide(slideEl) {
     if (!slideEl) return;
-    // By the time a slide appears, the user already waited through the
-    // loader — content should be there right away, not trickle in slowly
-    // behind it. Short, tight stagger; and includes [data-reveal-mask]
-    // (images) so they're never left permanently invisible.
+    // Transición chill y relajada: elementos aparecen gradualmente con timing
+    // más espaciado para una entrada suave y elegante del contenido.
     var els = $$("[data-reveal], [data-reveal-mask]", slideEl);
+    
+    // Delay inicial para respirar después del loader
+    var initialDelay = 400;
+    
     els.forEach(function (el, i) {
-      setTimeout(function () { el.classList.add("is-revealed"); }, i * 55);
+      // Stagger más lento y espaciado para efecto chill
+      setTimeout(function () { 
+        el.classList.add("is-revealed"); 
+      }, initialDelay + (i * 120));
     });
     if (slideEl.getAttribute("data-slide") === "1") safe(triggerCountUp, "triggerCountUp");
   }
