@@ -838,7 +838,7 @@
   }
 
   /* -----------------------------------------------------------
-     Contact form — simulated submit
+     Contact form — Formspree integration
   ----------------------------------------------------------- */
   function initContactForm() {
     var form = $("[data-contact-form]");
@@ -855,14 +855,34 @@
       form.classList.add("is-sending");
       submitBtn && (submitBtn.disabled = true);
 
-      setTimeout(function () {
-        var firstName = (form.elements.name.value || "").trim().split(/\s+/)[0] || "Hola";
-        if (msg) msg.textContent = firstName + ", recibimos tu mensaje. Te escribimos a la brevedad.";
+      // Real Formspree submission
+      var formData = new FormData(form);
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(function(response) {
         form.classList.remove("is-sending");
-        form.classList.add("is-sent");
-        success.setAttribute("aria-hidden", "false");
-        success.classList.add("is-visible");
-      }, 800 + Math.random() * 400);
+        if (response.ok) {
+          var firstName = (form.elements.name.value || "").trim().split(/\s+/)[0] || "Hola";
+          if (msg) msg.textContent = firstName + ", recibimos tu mensaje. Te escribimos a la brevedad.";
+          form.classList.add("is-sent");
+          success.setAttribute("aria-hidden", "false");
+          success.classList.add("is-visible");
+          form.reset();
+        } else {
+          return response.json().then(function(data) {
+            if (msg) msg.textContent = "Hubo un error. Por favor intenta nuevamente.";
+            submitBtn && (submitBtn.disabled = false);
+          });
+        }
+      })
+      .catch(function(error) {
+        form.classList.remove("is-sending");
+        if (msg) msg.textContent = "Hubo un error. Por favor intenta nuevamente.";
+        submitBtn && (submitBtn.disabled = false);
+      });
     });
   }
 
