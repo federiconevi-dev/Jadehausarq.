@@ -102,9 +102,8 @@
       contentDuration = 950;
     }
 
-    // Exit: transición wipe de derecha a izquierda, ambos paneles se
-    // deslizan hacia afuera revelando el contenido gradualmente
-    var hideBuffer = isFirstPlay ? 2000 : 750;
+    // Exit: cortina se desliza de derecha a izquierda, lento y suave
+    var hideBuffer = isFirstPlay ? 2200 : 900;
     schedule(function () {
       safe(onContentDone, "loader:onContentDone");
       loader.classList.add("is-hiding");
@@ -121,18 +120,16 @@
   ----------------------------------------------------------- */
   function revealSlide(slideEl) {
     if (!slideEl) return;
-    // Transición cinematográfica: elementos entran desde la derecha
-    // coordinados con el wipe del loader para efecto fluido
+    // Transición simple: elementos aparecen gradualmente
     var els = $$("[data-reveal], [data-reveal-mask]", slideEl);
     
-    // Delay para sincronizar con el wipe (comienza mientras el loader se va)
-    var initialDelay = 200;
+    // Delay para que empiece mientras el loader se va
+    var initialDelay = 500;
     
     els.forEach(function (el, i) {
-      // Stagger suave para cascada elegante
       setTimeout(function () { 
         el.classList.add("is-revealed"); 
-      }, initialDelay + (i * 100));
+      }, initialDelay + (i * 80));
     });
     if (slideEl.getAttribute("data-slide") === "1") safe(triggerCountUp, "triggerCountUp");
   }
