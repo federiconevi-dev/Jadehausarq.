@@ -214,16 +214,23 @@ html:not(.is-ready) .loader { animation: loaderCssFailsafe 0s 8s forwards; }
   letter-spacing: 0.01em; text-transform: uppercase; white-space: nowrap;
   color: var(--ink); text-align: center; margin: 0;
 }
-/* Wordmark: a short rule above the letters, matching the brand's own wordmark artwork. */
-.loader-wordmark { display: flex; flex-direction: column; align-items: center; gap: .22rem; }
+/* Wordmark: a short rule above the letters, matching the brand's own
+   wordmark artwork exactly — line + text together, shifted right of the
+   mark's own center. Sized and positioned to sit under the H in the mark
+   above (the H is 54.2% of the mark's width, centered 22.4% right of the
+   mark's midline — measured directly from the logo file, not eyeballed). */
+.loader-wordmark {
+  display: flex; flex-direction: column; align-items: center; gap: .3rem;
+  transform: translateX(clamp(35px, 7vw, 56px));
+}
 .loader-wordmark::before {
-  content: ""; display: block; height: 1px; background: var(--line-strong);
+  content: ""; display: block; height: 1px; background: var(--ink);
   width: clamp(84.5px, 16.9vw, 134px);
 }
 .loader-name {
   display: flex; margin: 0; white-space: nowrap;
-  font-family: var(--font-mono); font-size: clamp(9.4px, 1.82vw, 14.7px); font-weight: 500;
-  letter-spacing: 0.02em; color: var(--ink-mute);
+  font-family: var(--font-display); font-size: clamp(11px, 2.1vw, 16px); font-weight: 700;
+  letter-spacing: 0.06em; color: var(--ink);
 }
 
 /* Slide-to-slide navigation only — the mark alone, overlaying the same
