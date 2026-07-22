@@ -122,18 +122,15 @@ ul, ol { list-style: none; padding: 0; }
    ============================================================= */
 [data-reveal], [data-reveal-hero] {
   opacity: 0; 
-  transform: translateX(60px) scale(.96);
-  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(20px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
 }
 [data-reveal].is-revealed, [data-reveal-hero].is-revealed { 
   opacity: 1; 
-  transform: translateX(0) scale(1); 
+  transform: translateY(0); 
 }
 [data-reveal-hero] {
-  transform: translateX(80px) scale(.94);
-  transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-duration: 1.3s;
 }
 [data-reveal-mask] {
   clip-path: inset(0 0 100% 0);
@@ -165,43 +162,30 @@ ul, ol { list-style: none; padding: 0; }
 html:not(.is-ready) .loader { animation: loaderCssFailsafe 0s 8s forwards; }
 @keyframes loaderCssFailsafe { to { opacity: 0; pointer-events: none; } }
 
-/* The opaque background lives on two half-height panels instead of on
-   .loader itself — that's what lets the exit open like a curtain from the
-   center (top half retreats up, bottom half retreats down) instead of a
-   single top-to-bottom wipe. Opaque by default, no transform, so it's still
-   the very first thing painted — zero chance of a flash of the page
-   underneath before JS runs. Transición cinematográfica: barrido de derecha a izquierda. */
+/* Una sola cortina que barre de derecha a izquierda, lento y suave */
 .loader-panel {
-  position: absolute; top: 0; bottom: 0; width: 50%; height: 100%;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   background: var(--bg);
-  transition: transform 1.8s cubic-bezier(0.83, 0, 0.17, 1);
+  transform: translateX(0);
+  transition: transform 2s cubic-bezier(0.65, 0, 0.35, 1);
   will-change: transform;
 }
 .loader-panel--top { 
-  left: 0; right: auto;
-  transform-origin: right center;
+  z-index: 2;
 }
 .loader-panel--bottom { 
-  right: 0; left: auto;
-  transform-origin: left center;
+  display: none; /* Solo usamos un panel */
 }
-.loader.is-hiding .loader-panel--top { transform: translateX(-100%); }
-.loader.is-hiding .loader-panel--bottom { transform: translateX(100%); }
-/* Slide-to-slide navigation only — the snappy slide-to-slide one, not
-   the first-load intro. */
-.loader.is-quick .loader-panel { transition-duration: .6s; }
-/* The first-load intro itself is also brief now (~4s total, two beats) —
-   its curtain only needs to be a little slower than the snappy slide-to-
-   slide one above, not the old ~2s cinematic sweep. */
-.loader.is-brief .loader-panel { transition-duration: .8s; }
-
-/* Fade out adicional del loader completo para transición más suave */
-.loader.is-hiding {
-  transition: opacity 0.6s ease-out 1.2s;
+.loader.is-hiding .loader-panel--top { 
+  transform: translateX(-100%); 
 }
-.loader.is-out {
-  opacity: 0;
-}
+/* Slide-to-slide navigation: rápido */
+.loader.is-quick .loader-panel { transition-duration: .8s; }
+/* Primera carga: lento y suave */
+.loader.is-brief .loader-panel { transition-duration: 2s; }
 
 /* Positioning context for the intro's stages below, which stack as
    absolutely-centered overlays (only one is ever visible at a time) rather
@@ -392,24 +376,16 @@ html[data-active-slide="0"] .auto-progress span { background: var(--paper); mix-
   z-index: 910;
   opacity: 0;
   pointer-events: none;
-  /* This panel is full-viewport (inset: 0) even while "closed" — without the
-     transform below, only opacity hides it, and the browser treats every
-     product photo inside as on-screen, fetching all of them (500KB+) on
-     first paint despite nothing being visible yet. Pushed far off-screen
-     instead so native lazy-loading correctly defers them. The transform
-     change is delayed until the opacity fade-out has fully finished, so it
-     stays invisible-but-onscreen for the whole fade — visually identical to
-     a plain opacity transition, just off-screen once nothing shows it. */
-  transform: translateX(300vw);
-  transition: opacity .9s var(--ease-soft), transform 0s .9s;
-  /* Promotes this to its own compositor layer so the fade is a cheap alpha
-     blend instead of the browser repainting all the product photos/sliders
-     underneath on every frame — this is what made opening it feel janky. */
-  will-change: opacity;
+  /* Panel se desliza desde la derecha con scale suave */
+  transform: translateX(100%) scale(0.95);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+              transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
 }
 .side-panel--catalog.is-open {
-  opacity: 1; pointer-events: auto; transform: none;
-  transition: opacity .9s var(--ease-soft), transform 0s;
+  opacity: 1; 
+  pointer-events: auto; 
+  transform: translateX(0) scale(1);
 }
 
 /* Menu — full-viewport dimmed overlay, background content visible through it */
@@ -495,12 +471,19 @@ html[data-active-slide="3"] .menu-link[data-slide-link="3"] { display: none; }
   text-align: center; max-width: 720px; margin-inline: auto; width: 100%;
 }
 .cat-panel-eyebrow, .cat-panel-title, .cat-panel-desc {
-  opacity: 0; transform: translateY(18px);
-  transition: opacity .7s var(--ease-out), transform .7s var(--ease-out);
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+              transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.side-panel--catalog.is-open .cat-panel-eyebrow { opacity: 1; transform: none; transition-delay: .32s; }
-.side-panel--catalog.is-open .cat-panel-title { opacity: 1; transform: none; transition-delay: .4s; }
-.side-panel--catalog.is-open .cat-panel-desc { opacity: 1; transform: none; transition-delay: .48s; }
+.side-panel--catalog.is-open .cat-panel-eyebrow { 
+  opacity: 1; transform: none; transition-delay: 0.3s; 
+}
+.side-panel--catalog.is-open .cat-panel-title { 
+  opacity: 1; transform: none; transition-delay: 0.4s; 
+}
+.side-panel--catalog.is-open .cat-panel-desc { 
+  opacity: 1; transform: none; transition-delay: 0.5s; 
+}
 .cat-panel-eyebrow { font-family: var(--font-mono); font-size: .68rem; letter-spacing: 0.14em; color: var(--panel-ink-mute); margin-bottom: .6rem; }
 .cat-panel-title { font-size: clamp(1.8rem, 4.6vw, 2.6rem); margin-bottom: .7rem; font-weight: 500; }
 .cat-panel-desc { color: var(--panel-ink-mute); font-size: .92rem; max-width: 42ch; margin-inline: auto; }
@@ -510,9 +493,15 @@ html[data-active-slide="3"] .menu-link[data-slide-link="3"] { display: none; }
    ============================================================= */
 .slider {
   position: relative; flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 0;
-  opacity: 0; transition: opacity .8s var(--ease-out) .5s;
+  opacity: 0; 
+  transform: translateY(20px) scale(0.98);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.6s,
+              transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.6s;
 }
-.side-panel--catalog.is-open .slider { opacity: 1; }
+.side-panel--catalog.is-open .slider { 
+  opacity: 1; 
+  transform: translateY(0) scale(1);
+}
 .slider-viewport {
   padding-inline: clamp(3.6rem, 9vw, 4.6rem);
   padding-block: .2rem clamp(2.4rem, 6vh, 3.2rem);
