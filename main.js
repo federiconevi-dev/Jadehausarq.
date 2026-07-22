@@ -656,25 +656,36 @@
       });
     });
 
-    // The header "rectangle" button opens the catalog directly with a beautiful
-    // transition. From the Hero specifically, it plays an elegant expand animation
-    // where the button morphs into the catalog panel. From any other slide, it
-    // opens the catalog with a smooth slide-in from the right.
+    // The header "rectangle" button opens the catalog directly with a smooth
+    // zoom transition that takes advantage of the matching background between
+    // the current view and the celosias catalog cover for a seamless "pro" effect.
     var catalogoBtn = $("[data-nav-catalogo]");
     catalogoBtn && catalogoBtn.addEventListener("click", function () {
       if (openPanel === catalogPanel) { closeCatalog(); return; }
       if (openPanel === menuPanel) { closeMenu(); }
       
-      var onHero = window.__getCurrentIndex && window.__getCurrentIndex() === 0;
-      
-      // Abrir catálogo con la primera categoría (celosías) por defecto
-      if (onHero && window.__heroToCatalogoButton) {
-        window.__heroToCatalogoButton(catalogoBtn, function() {
-          openCatalog("celosias", catalogoBtn);
-        });
-      } else {
-        openCatalog("celosias", catalogoBtn);
+      // Efecto zoom suave que aprovecha el fondo coincidente
+      var currentView = $(".slide.is-active");
+      if (currentView) {
+        // Zoom gradual del contenido actual mientras se desvanece
+        currentView.style.transition = "transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease-out";
+        currentView.style.transform = "scale(1.15)";
+        currentView.style.opacity = "0";
       }
+      
+      // Abrir el catálogo con timing perfecto para crear efecto seamless
+      setTimeout(function() {
+        openCatalog("celosias", catalogoBtn);
+        
+        // Resetear estilos del slide anterior
+        if (currentView) {
+          setTimeout(function() {
+            currentView.style.transform = "";
+            currentView.style.opacity = "";
+            currentView.style.transition = "";
+          }, 100);
+        }
+      }, 400);
     });
 
     // Backdrop click closes whichever is open (catalog only — menu skips the backdrop, see openMenu).
