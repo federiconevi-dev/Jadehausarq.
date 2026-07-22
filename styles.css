@@ -121,13 +121,19 @@ ul, ol { list-style: none; padding: 0; }
    4. Reveal / typography effects
    ============================================================= */
 [data-reveal], [data-reveal-hero] {
-  opacity: 0; transform: translateY(34px) scale(.985);
-  transition: opacity 1.4s var(--ease-soft), transform 1.4s var(--ease-soft);
+  opacity: 0; 
+  transform: translateX(60px) scale(.96);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
-[data-reveal].is-revealed, [data-reveal-hero].is-revealed { opacity: 1; transform: none; }
+[data-reveal].is-revealed, [data-reveal-hero].is-revealed { 
+  opacity: 1; 
+  transform: translateX(0) scale(1); 
+}
 [data-reveal-hero] {
-  transform: translateY(44px) scale(.97);
-  transition: opacity 1.8s var(--ease-soft), transform 1.8s var(--ease-soft);
+  transform: translateX(80px) scale(.94);
+  transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 [data-reveal-mask] {
   clip-path: inset(0 0 100% 0);
@@ -164,25 +170,38 @@ html:not(.is-ready) .loader { animation: loaderCssFailsafe 0s 8s forwards; }
    center (top half retreats up, bottom half retreats down) instead of a
    single top-to-bottom wipe. Opaque by default, no transform, so it's still
    the very first thing painted — zero chance of a flash of the page
-   underneath before JS runs. Transición más lenta para efecto chill. */
+   underneath before JS runs. Transición cinematográfica: barrido de derecha a izquierda. */
 .loader-panel {
-  position: absolute; left: 0; right: 0; height: 50%;
+  position: absolute; top: 0; bottom: 0; width: 50%; height: 100%;
   background: var(--bg);
-  transition: transform 2.2s var(--ease-soft);
+  transition: transform 1.8s cubic-bezier(0.83, 0, 0.17, 1);
   will-change: transform;
 }
-.loader-panel--top { top: 0; }
-.loader-panel--bottom { bottom: 0; }
-.loader.is-hiding .loader-panel--top { transform: translateY(-100%); }
-.loader.is-hiding .loader-panel--bottom { transform: translateY(100%); }
-/* Slide-to-slide navigation (not the first-load intro) opens much faster —
-   the intro only plays once; every click after that should feel snappy,
-   not like re-watching it. */
+.loader-panel--top { 
+  left: 0; right: auto;
+  transform-origin: right center;
+}
+.loader-panel--bottom { 
+  right: 0; left: auto;
+  transform-origin: left center;
+}
+.loader.is-hiding .loader-panel--top { transform: translateX(-100%); }
+.loader.is-hiding .loader-panel--bottom { transform: translateX(100%); }
+/* Slide-to-slide navigation only — the snappy slide-to-slide one, not
+   the first-load intro. */
 .loader.is-quick .loader-panel { transition-duration: .6s; }
 /* The first-load intro itself is also brief now (~4s total, two beats) —
    its curtain only needs to be a little slower than the snappy slide-to-
    slide one above, not the old ~2s cinematic sweep. */
-.loader.is-brief .loader-panel { transition-duration: .6s; }
+.loader.is-brief .loader-panel { transition-duration: .8s; }
+
+/* Fade out adicional del loader completo para transición más suave */
+.loader.is-hiding {
+  transition: opacity 0.6s ease-out 1.2s;
+}
+.loader.is-out {
+  opacity: 0;
+}
 
 /* Positioning context for the intro's stages below, which stack as
    absolutely-centered overlays (only one is ever visible at a time) rather

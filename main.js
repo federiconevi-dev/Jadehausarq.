@@ -102,10 +102,9 @@
       contentDuration = 950;
     }
 
-    // Exit: once everything above has finished, the loader opens like a
-    // curtain from the center (see .loader-panel in CSS) instead of wiping
-    // top-to-bottom. Transición chill más lenta para una salida elegante.
-    var hideBuffer = isFirstPlay ? 900 : 750;
+    // Exit: transición wipe de derecha a izquierda, ambos paneles se
+    // deslizan hacia afuera revelando el contenido gradualmente
+    var hideBuffer = isFirstPlay ? 2000 : 750;
     schedule(function () {
       safe(onContentDone, "loader:onContentDone");
       loader.classList.add("is-hiding");
@@ -122,18 +121,18 @@
   ----------------------------------------------------------- */
   function revealSlide(slideEl) {
     if (!slideEl) return;
-    // Transición chill y relajada: elementos aparecen gradualmente con timing
-    // más espaciado para una entrada suave y elegante del contenido.
+    // Transición cinematográfica: elementos entran desde la derecha
+    // coordinados con el wipe del loader para efecto fluido
     var els = $$("[data-reveal], [data-reveal-mask]", slideEl);
     
-    // Delay inicial para respirar después del loader
-    var initialDelay = 400;
+    // Delay para sincronizar con el wipe (comienza mientras el loader se va)
+    var initialDelay = 200;
     
     els.forEach(function (el, i) {
-      // Stagger más lento y espaciado para efecto chill
+      // Stagger suave para cascada elegante
       setTimeout(function () { 
         el.classList.add("is-revealed"); 
-      }, initialDelay + (i * 120));
+      }, initialDelay + (i * 100));
     });
     if (slideEl.getAttribute("data-slide") === "1") safe(triggerCountUp, "triggerCountUp");
   }
