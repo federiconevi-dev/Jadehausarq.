@@ -273,6 +273,30 @@
     catalogoSlide.classList.add("is-active");
     updateNavForSlide(currentIndex);
 
+    // The real card's own photo has to match whatever the ghost just flew
+    // in with — otherwise the crossfade handoff below reveals a DIFFERENT,
+    // fixed photo underneath, and the "one photo becomes the card" illusion
+    // breaks at the very last moment. Not the exact same file, though: the
+    // ghost flies in with the wide 16:9 hero crop (correct for the full-
+    // bleed home background it came from), but the card itself is a tall
+    // 3:4 portrait — object-fit:cover on the wide crop there only shows a
+    // narrow center sliver. This map points each hero photo at its own
+    // dedicated portrait crop of the SAME source photo instead, so the
+    // reveal settles into a properly composed image, not a bad crop of one.
+    // Swapped this early (well before the ~1.1s flight lands) so it's
+    // already loaded by the time it's revealed.
+    var HERO_TO_CARD_COVER = {
+      "hero-celosias.webp": "cat-celosias-cover2.webp",
+      "hero-az-geo.webp": "cat-az-geo-cover2.webp",
+      "hero-az-clasico.webp": "cat-az-clasico-cover2.webp"
+    };
+    var celosiasCardImg = $("img", celosiasCard);
+    if (celosiasCardImg) {
+      var heroFile = (heroImg.getAttribute("src") || "").split("/").pop();
+      var cardCover = HERO_TO_CARD_COVER[heroFile];
+      celosiasCardImg.src = cardCover ? "assets/img/" + cardCover : (heroImg.currentSrc || heroImg.src);
+    }
+
     // Hide just the Celosías card (not the rest of the slider, which fades
     // in normally below) until the ghost image lands. Opacity (not
     // visibility) so the handoff below can crossfade instead of popping —
