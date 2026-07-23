@@ -607,23 +607,19 @@
       });
     });
 
-    // The header "rectangle" button opens the exact same menu the hamburger
-    // does (Catálogos / Quiénes somos / Contacto) — there must not be a
-    // separate navigation path between the two. From the Hero specifically,
-    // it plays the shrink flourish (the hero photo flies down into the
-    // button, shared-element style) before the menu opens; from any other
-    // slide there's no hero photo to shrink, so it just opens the menu
-    // directly, same as the hamburger would.
+    // Separate "go to catálogo" button in the header — its own control, own
+    // job, independent of the menu toggle beside it. Jumps straight to the
+    // Catálogo slide with no loader (no JH mark, no curtain) — just a quick
+    // crossfade, since this is meant to feel immediate, not like replaying
+    // the intro every time. From the Hero specifically this is
+    // heroToCatalogoTransition's shared-element shrink straight into the
+    // Celosías card. Closes any open panel first, same as the other
+    // navigation above.
     var catalogoBtn = $("[data-nav-catalogo]");
     catalogoBtn && catalogoBtn.addEventListener("click", function () {
-      if (openPanel === menuPanel) { closeMenu(); return; }
-      if (openPanel === catalogPanel) { closeCatalog(); return; }
-      var onHero = window.__getCurrentIndex && window.__getCurrentIndex() === 0;
-      if (onHero && window.__heroToMenuTransition) {
-        window.__heroToMenuTransition(catalogoBtn, openMenu);
-      } else {
-        openMenu();
-      }
+      if (openPanel === menuPanel) closeMenu();
+      if (openPanel === catalogPanel) closeCatalog();
+      if (window.__showSlideDirect) window.__showSlideDirect(2);
     });
 
     // Backdrop click closes whichever is open (catalog only — menu skips the backdrop, see openMenu).
