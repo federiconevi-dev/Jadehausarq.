@@ -193,16 +193,21 @@
     clearAutoAdvance();
   }
 
-  // Home's own independent background loop — 3 photos (placeholders for now,
-  // see the markup comment above .hero-media) crossfading in a continuous
-  // rotation, each with its own slow Ken Burns breathe (CSS). Runs once,
-  // forever, from boot — separate from slide navigation entirely, so
-  // opening/closing panels or moving between sections never touches it.
+  // Home's own independent background loop — the 3 category photos
+  // crossfading in a continuous rotation, each with its own slow Ken Burns
+  // breathe (CSS). Runs once, forever, from boot — separate from slide
+  // navigation entirely, so opening/closing panels or moving between
+  // sections never touches it. Deliberately NOT gated by
+  // prefers-reduced-motion, same reasoning as the intro loader: this is the
+  // only way the other 2 categories are ever shown on Home at all (it's
+  // content rotation, not just decoration), and Windows ships
+  // reduced-motion ON by default in many setups — gating it would mean most
+  // Windows visitors never see anything but the first photo.
   var HERO_LOOP_MS = 6500;
   var heroLoopTimer = null;
   function startHeroLoop() {
     var heroImgs = $$(".hero-media-img");
-    if (heroImgs.length < 2 || reduced) return;
+    if (heroImgs.length < 2) return;
     var i = 0;
     (function tick() {
       heroLoopTimer = setTimeout(function () {
