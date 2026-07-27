@@ -641,14 +641,17 @@ html[data-active-slide="3"] .menu-link[data-slide-link="3"] { display: none; }
    startHeroLoop in main.js) — only one is opacity:1 ("is-active") at a
    time. Each still runs its own slow, continuous Ken Burns breathe
    regardless of visibility, so there's never a "just switched on, snapped
-   to the start of the zoom" moment when it fades in. */
+   to the start of the zoom" moment when it fades in.
+   Duration deliberately shorter than one full loop cycle (HERO_LOOP_MS in
+   main.js, 6.5s) — at 16s the zoom barely progressed before the photo
+   crossfaded away again, reading as "not zooming" even though it was. */
 .hero-media-img {
   position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: cover;
   object-position: center;
   opacity: 0;
   transition: opacity 1.6s var(--ease-soft);
-  animation: heroZoomIn 16s var(--ease-soft) infinite alternate;
+  animation: heroZoomIn 8s var(--ease-soft) infinite alternate;
 }
 @media (max-width: 768px) {
   .hero-media-img {
