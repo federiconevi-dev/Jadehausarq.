@@ -12,8 +12,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap">
 
-<link rel="preload" as="image" href="assets/img/hero-celosias.webp" fetchpriority="high">
-<link rel="stylesheet" href="styles.css?v=20260850">
+<link rel="preload" as="image" href="assets/img/hero-celosias-mobile.webp" media="(max-width: 1024px)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/img/hero-celosias.webp" media="(min-width: 1025px)" fetchpriority="high">
+<link rel="stylesheet" href="styles.css?v=20260865">
 <noscript><style>
   [data-reveal],[data-reveal-hero],[data-reveal-mask]{opacity:1!important;transform:none!important;clip-path:none!important;}
   .side-panel{position:static!important;transform:none!important;width:100%!important;height:auto!important;opacity:1!important;}
@@ -672,9 +673,18 @@
   <!-- ===== HERO ===== -->
   <section class="hero slide is-active" id="inicio-slide" data-slide="0">
     <div class="hero-media" data-hero-media>
-      <img class="hero-media-img is-active" src="assets/img/hero-celosias.webp" alt="Celosías cerámicas Jade Haus Arq." data-hero-slide fetchpriority="high" loading="eager" decoding="sync" width="1600" height="900">
-      <img class="hero-media-img" src="assets/img/hero-az-geo.webp" alt="Azulejos geométricos Jade Haus Arq." data-hero-slide loading="lazy" decoding="async" width="1600" height="900">
-      <img class="hero-media-img" src="assets/img/hero-az-clasico.webp" alt="Azulejos clásicos Jade Haus Arq." data-hero-slide loading="lazy" decoding="async" width="1600" height="900">
+      <picture>
+        <source media="(max-width: 1024px)" srcset="assets/img/hero-celosias-mobile.webp">
+        <img class="hero-media-img is-active" src="assets/img/hero-celosias.webp" alt="Celosías cerámicas Jade Haus Arq." data-hero-slide fetchpriority="high" loading="eager" decoding="sync" width="1600" height="900">
+      </picture>
+      <picture>
+        <source media="(max-width: 1024px)" srcset="assets/img/hero-az-geo-mobile.webp">
+        <img class="hero-media-img" src="assets/img/hero-az-geo.webp" alt="Azulejos geométricos Jade Haus Arq." data-hero-slide loading="lazy" decoding="async" width="1600" height="900">
+      </picture>
+      <picture>
+        <source media="(max-width: 1024px)" srcset="assets/img/hero-az-clasico-mobile.webp">
+        <img class="hero-media-img" src="assets/img/hero-az-clasico.webp" alt="Azulejos clásicos Jade Haus Arq." data-hero-slide loading="lazy" decoding="async" width="1600" height="900">
+      </picture>
     </div>
     <div class="hero-overlay" aria-hidden="true"></div>
     <div class="hero-content" data-reveal>
