@@ -1050,5 +1050,8 @@ html[data-active-slide="3"] .menu-link[data-slide-link="3"] { display: none; }
    ============================================================= */
 @media (prefers-reduced-motion: reduce) {
   .contacto-map-pin::after { animation: none; }
-  .hero-media-img { animation: none; transform: scale(1); }
+  /* Deliberately NOT gating .hero-media-img's zoom here — same reasoning as
+     startHeroLoop in main.js: Windows ships reduced-motion on by default in
+     many setups, and gating this subtle continuous breathe would mean most
+     Windows/mobile visitors never see it at all. */
 }
