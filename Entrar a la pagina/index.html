@@ -1,0 +1,863 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jade Haus Arq. — Estudio de Diseño Arquitectónico</title>
+<meta name="description" content="Jade Haus Arq. es un estudio de diseño arquitectónico especializado en celosías y azulejos cerámicos de autor para arquitectura contemporánea.">
+<meta name="theme-color" content="#f7f6f3">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<link rel="preload" as="image" href="assets/img/hero-celosias.webp" fetchpriority="high">
+<link rel="stylesheet" href="styles.css?v=20260850">
+<noscript><style>
+  [data-reveal],[data-reveal-hero],[data-reveal-mask]{opacity:1!important;transform:none!important;clip-path:none!important;}
+  .side-panel{position:static!important;transform:none!important;width:100%!important;height:auto!important;opacity:1!important;}
+  .panel-backdrop,.side-panel-close,.nav-menu-btn,.loader,.auto-progress{display:none!important;}
+  .cat-panel-category{display:block!important;}
+  html,body{overflow:auto!important;height:auto!important;}
+  .slide{position:static!important;opacity:1!important;pointer-events:auto!important;height:auto!important;min-height:100vh;}
+  .slide-scroll{overflow:visible!important;height:auto!important;padding-top:calc(var(--nav-h) + 2rem)!important;}
+</style></noscript>
+</head>
+<body>
+
+<a class="skip-link" href="#inicio">Saltar al contenido</a>
+
+<!-- ============================= LOADER (initial load + slide transitions) ============================= -->
+<div class="loader" data-loader aria-hidden="true">
+  <div class="loader-panel" aria-hidden="true"></div>
+  <div class="loader-inner">
+    <!-- Beat 1 of the ~4s intro: mark + the long tagline — a placeholder
+         standing in for the pending PNG of this same composition. Once that
+         file arrives, replace everything inside [data-loader-beat1] with a
+         single <img> (object-fit: contain keeps its exact original aspect
+         ratio, no internal rescaling) — the JS only ever toggles
+         .is-visible on this wrapper itself, so nothing else needs to change. -->
+    <div class="loader-stage" data-loader-beat1>
+      <img class="loader-mark-img" src="assets/img/logo-mark.webp" alt="" width="489" height="320">
+      <p class="loader-tagline">1&deg; fabricante de celosías cerámicas en Argentina</p>
+    </div>
+    <!-- Beat 2: mark + the "JADE HAUS ARQ." wordmark — same placeholder
+         swap-in note as beat 1 above, targeting [data-loader-beat2] instead. -->
+    <div class="loader-stage" data-loader-beat2>
+      <img class="loader-mark-img" src="assets/img/logo-mark.webp" alt="" width="489" height="320">
+      <div class="loader-wordmark">
+        <p class="loader-name" aria-label="Jade Haus Arq.">
+          <span>J</span><span>A</span><span>D</span><span>E</span><span>&nbsp;</span><span>H</span><span>A</span><span>U</span><span>S</span><span>&nbsp;</span><span>A</span><span>R</span><span>Q</span><span>.</span>
+        </p>
+      </div>
+    </div>
+    <!-- Slide-to-slide navigation (not the first-load intro) reuses just the
+         mark alone for a quick brand flash — see playLoader in main.js. -->
+    <img class="loader-mark" data-loader-solo src="assets/img/logo-mark.webp" alt="" width="489" height="320">
+  </div>
+</div>
+
+<!-- ============================= AUTO-ADVANCE PROGRESS ============================= -->
+<div class="auto-progress" data-auto-progress aria-hidden="true"><span data-auto-progress-fill></span></div>
+
+<!-- ============================= HEADER ============================= -->
+<header class="nav" data-nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#inicio" data-slide-link="0" aria-label="Jade Haus Arq. — inicio">
+      <img class="nav-logo-jh" src="assets/img/logo-mark.webp" alt="" width="489" height="320">
+    </a>
+    <div class="nav-actions">
+      <button type="button" class="nav-next-btn" data-nav-catalogo aria-label="Ir al catálogo">
+        <svg class="nav-next-icon" viewBox="0 0 18 12" aria-hidden="true">
+          <rect x="1" y="1" width="16" height="10" rx="2.2"></rect>
+        </svg>
+      </button>
+      <button type="button" class="nav-menu-btn" data-menu-open aria-haspopup="true" aria-expanded="false" aria-controls="menu-panel" aria-label="Abrir menú">
+        <svg class="nav-menu-icon nav-menu-icon--lines" viewBox="0 0 18 16" aria-hidden="true">
+          <line x1="0" y1="4" x2="18" y2="4"></line>
+          <line x1="0" y1="8" x2="18" y2="8"></line>
+          <line x1="0" y1="12" x2="18" y2="12"></line>
+        </svg>
+        <svg class="nav-menu-icon nav-menu-icon--close" viewBox="0 0 24 24" aria-hidden="true">
+          <line x1="5" y1="5" x2="19" y2="19"></line>
+          <line x1="19" y1="5" x2="5" y2="19"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============================= PANEL BACKDROP ============================= -->
+<div class="panel-backdrop" data-panel-backdrop aria-hidden="true"></div>
+
+<!-- ============================= MENU PANEL ============================= -->
+<aside class="side-panel side-panel--menu" id="menu-panel" data-menu-panel aria-hidden="true" aria-label="Menú principal">
+  <div class="side-panel-inner">
+    <div class="side-panel-nav-wrap">
+      <nav class="menu-list" aria-label="Navegación principal">
+        <a class="menu-link" href="#catalogo" data-panel-link data-slide-link="2">Catálogos</a>
+        <a class="menu-link" href="#nosotros" data-panel-link data-slide-link="1">Quiénes somos</a>
+        <a class="menu-link" href="#contacto" data-panel-link data-slide-link="3">Contacto</a>
+      </nav>
+    </div>
+    <div class="side-panel-bottom">
+      <div class="side-panel-social">
+        <a href="https://www.instagram.com/celosias.ar" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ============================= CATALOG PANEL ============================= -->
+<aside class="side-panel side-panel--catalog" id="catalog-panel" data-catalog-panel aria-hidden="true" aria-label="Catálogo de productos">
+  <div class="side-panel-inner side-panel-inner--catalog">
+
+    <!-- ===== CATEGORÍA: Celosías ===== -->
+    <div class="cat-panel-category is-active" data-cat-category="celosias">
+      <header class="cat-panel-header">
+        <p class="cat-panel-eyebrow">CELOSÍAS</p>
+        <h2 class="cat-panel-title">Celosías</h2>
+        <p class="cat-panel-desc">Paneles cerámicos perforados que filtran la luz natural y definen umbrales entre interior y exterior.</p>
+      </header>
+      <div class="slider" data-slider>
+       <div class="slider-viewport">
+        <div class="slider-track" data-slider-track>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="1 de 8">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#b5601f;" aria-hidden="true"></div>
+                  <div class="product-photos">
+                    <img src="assets/img/product-celosia-dia-1.webp" alt="Celosía Circular — Terracota, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <img src="assets/img/product-celosia-detalle-macro.webp" alt="Celosía Circular — Terracota, detalle" loading="lazy" decoding="async" width="550" height="550" />
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Celosía Circular — Terracota</h3>
+                    <p class="product-code">JH-CL-01</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Celosía Circular — Terracota (JH-CL-01)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="2 de 8">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#7a1f2b;" aria-hidden="true"></div>
+                  <div class="product-photos">
+                    <img src="assets/img/product-celosia-interior-rojo.webp" alt="Celosía Circular — Burdeos, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <img src="assets/img/product-celosia-detalle-macro.webp" alt="Celosía Circular — Burdeos, detalle" loading="lazy" decoding="async" width="550" height="550" />
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Celosía Circular — Burdeos</h3>
+                    <p class="product-code">JH-CL-02</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Celosía Circular — Burdeos (JH-CL-02)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="3 de 8">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#1f9e9c;" aria-hidden="true"></div>
+                  <div class="product-photos">
+                    <img src="assets/img/product-celosia-atardecer-1.webp" alt="Celosía Circular — Turquesa, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <img src="assets/img/product-celosia-dia-1.webp" alt="Celosía Circular — Turquesa, detalle" loading="lazy" decoding="async" width="550" height="550" />
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Celosía Circular — Turquesa</h3>
+                    <p class="product-code">JH-CL-03</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Celosía Circular — Turquesa (JH-CL-03)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="4 de 8">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#a9a29a;" aria-hidden="true"></div>
+                  <div class="product-photos">
+                    <img src="assets/img/product-celosia-noche-1.webp" alt="Celosía Circular — Gris Piedra, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <img src="assets/img/product-celosia-detalle-macro.webp" alt="Celosía Circular — Gris Piedra, detalle" loading="lazy" decoding="async" width="550" height="550" />
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Celosía Circular — Gris Piedra</h3>
+                    <p class="product-code">JH-CL-04</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Celosía Circular — Gris Piedra (JH-CL-04)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="5 de 8">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#14625f;" aria-hidden="true"></div>
+                  <div class="product-photos">
+                    <img src="assets/img/product-celosia-atardecer-2.webp" alt="Celosía Circular — Verde Petróleo, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <img src="assets/img/product-celosia-atardecer-flare.webp" alt="Celosía Circular — Verde Petróleo, detalle" loading="lazy" decoding="async" width="550" height="550" />
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Celosía Circular — Verde Petróleo</h3>
+                    <p class="product-code">JH-CL-05</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Celosía Circular — Verde Petróleo (JH-CL-05)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="6 de 8">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#c9862f;" aria-hidden="true"></div>
+                  <div class="product-photos">
+                    <img src="assets/img/product-celosia-atardecer-3.webp" alt="Celosía Circular — Ámbar, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <img src="assets/img/product-celosia-noche-2.webp" alt="Celosía Circular — Ámbar, detalle" loading="lazy" decoding="async" width="550" height="550" />
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Celosía Circular — Ámbar</h3>
+                    <p class="product-code">JH-CL-06</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Celosía Circular — Ámbar (JH-CL-06)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="7 de 8">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#a45a2a;" aria-hidden="true"></div>
+                  <div class="product-photos">
+                    <img src="assets/img/product-celosia-atardecer-flare.webp" alt="Celosía Circular — Cobre, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <img src="assets/img/product-celosia-dia-1.webp" alt="Celosía Circular — Cobre, detalle" loading="lazy" decoding="async" width="550" height="550" />
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Celosía Circular — Cobre</h3>
+                    <p class="product-code">JH-CL-07</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Celosía Circular — Cobre (JH-CL-07)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="8 de 8">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#3a3a3a;" aria-hidden="true"></div>
+                  <div class="product-photos">
+                    <img src="assets/img/product-celosia-noche-2.webp" alt="Celosía Circular — Antracita, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <img src="assets/img/product-celosia-interior-rojo.webp" alt="Celosía Circular — Antracita, detalle" loading="lazy" decoding="async" width="550" height="550" />
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Celosía Circular — Antracita</h3>
+                    <p class="product-code">JH-CL-08</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Celosía Circular — Antracita (JH-CL-08)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+        </div>
+       </div>
+        <button type="button" class="slider-btn slider-prev" data-slider-prev aria-label="Diapositiva anterior">←</button>
+        <button type="button" class="slider-btn slider-next" data-slider-next aria-label="Diapositiva siguiente">→</button>
+        <div class="slider-scrollbar" data-slider-scrollbar role="scrollbar" aria-label="Desplazar productos" aria-orientation="horizontal">
+          <div class="slider-scrollbar-thumb" data-slider-thumb></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CATEGORÍA: Azulejos Geométricos ===== -->
+    <div class="cat-panel-category" data-cat-category="geometricos">
+      <header class="cat-panel-header">
+        <p class="cat-panel-eyebrow">REVESTIMIENTOS</p>
+        <h2 class="cat-panel-title">Azulejos Geométricos</h2>
+        <p class="cat-panel-desc">Trazos geométricos de precisión industrial para superficies que ordenan el espacio con ritmo propio.</p>
+      </header>
+      <div class="slider" data-slider>
+       <div class="slider-viewport">
+        <div class="slider-track" data-slider-track>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="1 de 10">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#2b2b2b;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-geo-1.webp" alt="Azulejo Borneo — Iron Black, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-geo-2.webp" alt="Azulejo Borneo — Iron Black, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Borneo — Iron Black</h3>
+                    <p class="product-code">JH-AG-01</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Borneo — Iron Black (JH-AG-01)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="2 de 10">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#b7b2a6;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-geo-3.webp" alt="Azulejo Coachella — Lea, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-geo-4.webp" alt="Azulejo Coachella — Lea, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Coachella — Lea</h3>
+                    <p class="product-code">JH-AG-02</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Coachella — Lea (JH-AG-02)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="3 de 10">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#c3c9cc;" aria-hidden="true"></div>
+                  <div class="product-photos">
+                    <img src="assets/img/az-geo-5.webp" alt="Azulejo Hamptons — Shinnecoc, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <img src="assets/img/az-geo-6.webp" alt="Azulejo Hamptons — Shinnecoc, detalle" loading="lazy" decoding="async" width="550" height="550" />
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Hamptons — Shinnecoc</h3>
+                    <p class="product-code">JH-AG-03</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Hamptons — Shinnecoc (JH-AG-03)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="4 de 10">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#cfcfcf;" aria-hidden="true"></div>
+                  <div class="product-photos">
+                    <img src="assets/img/az-geo-7.webp" alt="Azulejo Fowler — Petals, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <img src="assets/img/az-geo-8.webp" alt="Azulejo Fowler — Petals, detalle" loading="lazy" decoding="async" width="550" height="550" />
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Fowler — Petals</h3>
+                    <p class="product-code">JH-AG-04</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Fowler — Petals (JH-AG-04)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="5 de 10">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#b8b8b8;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-geo-9.webp" alt="Azulejo Fowler — Addon, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-geo-10.webp" alt="Azulejo Fowler — Addon, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Fowler — Addon</h3>
+                    <p class="product-code">JH-AG-05</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Fowler — Addon (JH-AG-05)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="6 de 10">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#3a3a3a;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-geo-11.webp" alt="Azulejo Chalky — Graphite, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-geo-12.webp" alt="Azulejo Chalky — Graphite, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Chalky — Graphite</h3>
+                    <p class="product-code">JH-AG-06</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Chalky — Graphite (JH-AG-06)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="7 de 10">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#8a99a8;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-geo-13.webp" alt="Azulejo Frame_15 — Arrow Chic, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-geo-14.webp" alt="Azulejo Frame_15 — Arrow Chic, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Frame_15 — Arrow Chic</h3>
+                    <p class="product-code">JH-AG-07</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Frame_15 — Arrow Chic (JH-AG-07)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="8 de 10">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#4fa8a0;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-geo-15.webp" alt="Azulejo Antique — Flora, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-geo-16.webp" alt="Azulejo Antique — Flora, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Antique — Flora</h3>
+                    <p class="product-code">JH-AG-08</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Antique — Flora (JH-AG-08)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="9 de 10">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#e6e2d8;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-geo-17.webp" alt="Azulejo Ghent — Alpine White Matt, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-geo-18.webp" alt="Azulejo Ghent — Alpine White Matt, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Ghent — Alpine White Matt</h3>
+                    <p class="product-code">JH-AG-09</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Ghent — Alpine White Matt (JH-AG-09)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="10 de 10">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#3f8f6b;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-geo-19.webp" alt="Azulejo Renaissance — Emerald, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-geo-20.webp" alt="Azulejo Renaissance — Emerald, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Renaissance — Emerald</h3>
+                    <p class="product-code">JH-AG-10</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Renaissance — Emerald (JH-AG-10)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+        </div>
+       </div>
+        <button type="button" class="slider-btn slider-prev" data-slider-prev aria-label="Diapositiva anterior">←</button>
+        <button type="button" class="slider-btn slider-next" data-slider-next aria-label="Diapositiva siguiente">→</button>
+        <div class="slider-scrollbar" data-slider-scrollbar role="scrollbar" aria-label="Desplazar productos" aria-orientation="horizontal">
+          <div class="slider-scrollbar-thumb" data-slider-thumb></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CATEGORÍA: Azulejos Clásicos ===== -->
+    <div class="cat-panel-category" data-cat-category="clasicos">
+      <header class="cat-panel-header">
+        <p class="cat-panel-eyebrow">REVESTIMIENTOS</p>
+        <h2 class="cat-panel-title">Azulejos Clásicos</h2>
+        <p class="cat-panel-desc">Piezas de raíz artesanal reinterpretadas para la arquitectura contemporánea, sin perder su carácter.</p>
+      </header>
+      <div class="slider" data-slider>
+       <div class="slider-viewport">
+        <div class="slider-track" data-slider-track>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="1 de 17">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#1a1a1a;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-clas-1.webp" alt="Azulejo Camden — Black Glossy, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-clas-2.webp" alt="Azulejo Camden — Black Glossy, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Camden — Black Glossy</h3>
+                    <p class="product-code">JH-AC-01</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Camden — Black Glossy (JH-AC-01)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="2 de 17">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#5b8fa8;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-clas-3.webp" alt="Azulejo Ondine — Ocean, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-clas-4.webp" alt="Azulejo Ondine — Ocean, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Ondine — Ocean</h3>
+                    <p class="product-code">JH-AC-02</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Ondine — Ocean (JH-AC-02)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="3 de 17">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#6fb3a0;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-clas-5.webp" alt="Azulejo Vitral — Aqua, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-clas-6.webp" alt="Azulejo Vitral — Aqua, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Vitral — Aqua</h3>
+                    <p class="product-code">JH-AC-03</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Vitral — Aqua (JH-AC-03)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="4 de 17">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#e8e2d5;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-clas-7.webp" alt="Azulejo Glenbrook — Blank Canvas, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-clas-8.webp" alt="Azulejo Glenbrook — Blank Canvas, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Glenbrook — Blank Canvas</h3>
+                    <p class="product-code">JH-AC-04</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Glenbrook — Blank Canvas (JH-AC-04)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="5 de 17">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#e0d8c8;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-clas-9.webp" alt="Azulejo Acanto — Bone Reeded Gloss, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-clas-10.webp" alt="Azulejo Acanto — Bone Reeded Gloss, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Acanto — Bone Reeded Gloss</h3>
+                    <p class="product-code">JH-AC-05</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Acanto — Bone Reeded Gloss (JH-AC-05)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="6 de 17">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#e8e8e6;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-clas-11.webp" alt="Azulejo Borriana — White, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-clas-12.webp" alt="Azulejo Borriana — White, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Borriana — White</h3>
+                    <p class="product-code">JH-AC-06</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Borriana — White (JH-AC-06)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="7 de 17">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#3a5f7a;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-clas-13.webp" alt="Azulejo Chalky — Deep Blue, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-clas-14.webp" alt="Azulejo Chalky — Deep Blue, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Chalky — Deep Blue</h3>
+                    <p class="product-code">JH-AC-07</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Chalky — Deep Blue (JH-AC-07)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="8 de 17">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#b8c4c8;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-clas-15.webp" alt="Azulejo Argos — Statuario, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-clas-16.webp" alt="Azulejo Argos — Statuario, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Argos — Statuario</h3>
+                    <p class="product-code">JH-AC-08</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Argos — Statuario (JH-AC-08)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="9 de 17">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#1f5c42;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-clas-17.webp" alt="Azulejo Vermont — Malachite Green, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-clas-18.webp" alt="Azulejo Vermont — Malachite Green, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Vermont — Malachite Green</h3>
+                    <p class="product-code">JH-AC-09</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Vermont — Malachite Green (JH-AC-09)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="10 de 17">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#3a3a38;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-clas-19.webp" alt="Azulejo Roselle — Black, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-clas-20.webp" alt="Azulejo Roselle — Black, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Roselle — Black</h3>
+                    <p class="product-code">JH-AC-10</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Roselle — Black (JH-AC-10)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="11 de 17">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#3a4a63;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-clas-21.webp" alt="Azulejo Karatsu — Midnight, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-clas-22.webp" alt="Azulejo Karatsu — Midnight, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Karatsu — Midnight</h3>
+                    <p class="product-code">JH-AC-11</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Karatsu — Midnight (JH-AC-11)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="12 de 17">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#3f8f8a;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-clas-23.webp" alt="Azulejo Antique — Turquoise, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-clas-24.webp" alt="Azulejo Antique — Turquoise, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Antique — Turquoise</h3>
+                    <p class="product-code">JH-AC-12</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Antique — Turquoise (JH-AC-12)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="13 de 17">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#e8cdd4;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-clas-25.webp" alt="Azulejo Chalky — White, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-clas-26.webp" alt="Azulejo Chalky — White, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Chalky — White</h3>
+                    <p class="product-code">JH-AC-13</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Chalky — White (JH-AC-13)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="14 de 17">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#c98a7a;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-clas-27.webp" alt="Azulejo Amazonia — Coral, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-clas-28.webp" alt="Azulejo Amazonia — Coral, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Amazonia — Coral</h3>
+                    <p class="product-code">JH-AC-14</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Amazonia — Coral (JH-AC-14)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="15 de 17">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#e4ddd0;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-clas-29.webp" alt="Azulejo Amazonia — Chalk, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-clas-30.webp" alt="Azulejo Amazonia — Chalk, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Amazonia — Chalk</h3>
+                    <p class="product-code">JH-AC-15</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Amazonia — Chalk (JH-AC-15)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="16 de 17">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#2d6e63;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-clas-31.webp" alt="Azulejo Farrow — Vardo, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-clas-32.webp" alt="Azulejo Farrow — Vardo, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Farrow — Vardo</h3>
+                    <p class="product-code">JH-AC-16</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Farrow — Vardo (JH-AC-16)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+              <div class="product-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="17 de 17">
+                <article class="product-card">
+                  <div class="product-swatch" style="background-color:#b8785a;" aria-hidden="true"></div>
+                  <div class="product-photos" data-duplicate-pair>
+                    <img src="assets/img/az-clas-33.webp" alt="Azulejo Hackney — Terracota, instalación" loading="lazy" decoding="async" width="550" height="550" />
+                    <span class="product-photo-clip"><img src="assets/img/az-clas-34.webp" alt="Azulejo Hackney — Terracota, detalle" loading="lazy" decoding="async" width="550" height="550" /></span>
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-name">Azulejo Hackney — Terracota</h3>
+                    <p class="product-code">JH-AC-17</p>
+                    <button type="button" class="btn btn-outline product-cta" data-consult="Azulejo Hackney — Terracota (JH-AC-17)">Consultar</button>
+                  </div>
+                </article>
+              </div>
+        </div>
+       </div>
+        <button type="button" class="slider-btn slider-prev" data-slider-prev aria-label="Diapositiva anterior">←</button>
+        <button type="button" class="slider-btn slider-next" data-slider-next aria-label="Diapositiva siguiente">→</button>
+        <div class="slider-scrollbar" data-slider-scrollbar role="scrollbar" aria-label="Desplazar productos" aria-orientation="horizontal">
+          <div class="slider-scrollbar-thumb" data-slider-thumb></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</aside>
+
+<!-- ============================= MAIN ============================= -->
+<main id="inicio">
+
+  <!-- ===== HERO ===== -->
+  <section class="hero slide is-active" id="inicio-slide" data-slide="0">
+    <div class="hero-media" data-hero-media>
+      <img class="hero-media-img is-active" src="assets/img/hero-celosias.webp" alt="Celosías cerámicas Jade Haus Arq." data-hero-slide fetchpriority="high" loading="eager" decoding="sync" width="1600" height="900">
+      <img class="hero-media-img" src="assets/img/hero-az-geo.webp" alt="Azulejos geométricos Jade Haus Arq." data-hero-slide loading="lazy" decoding="async" width="1600" height="900">
+      <img class="hero-media-img" src="assets/img/hero-az-clasico.webp" alt="Azulejos clásicos Jade Haus Arq." data-hero-slide loading="lazy" decoding="async" width="1600" height="900">
+    </div>
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-content" data-reveal>
+      <p class="hero-kicker">Lanzamiento Exclusivo</p>
+      <h1 class="hero-title">1º Fabricante de Celosías Cerámicas en Argentina</h1>
+    </div>
+  </section>
+
+  <!-- ===== NOSOTROS ===== -->
+  <section class="nosotros slide" id="nosotros" data-slide="1">
+    <div class="slide-scroll">
+    <div class="nosotros-grid">
+      <figure class="nosotros-media" data-reveal-mask>
+        <img src="assets/img/nosotros.webp" alt="Celosía cerámica Jade Haus Arq. como divisor interior" loading="lazy" decoding="async" width="1400" height="1750">
+        <figcaption class="nosotros-media-caption">Celosía Circular — Divisor interior</figcaption>
+      </figure>
+      <div class="nosotros-text">
+        <p class="eyebrow">EL ESTUDIO</p>
+        <h2 class="nosotros-title" data-reveal>Materia con intención.</h2>
+        <p data-reveal>La oferta comercial de revestimientos actual te limita a la hora de darle una identidad única a la fachada o interior de un proyecto.</p>
+        <p data-reveal>Hoy la mayoría de las celosías del mercado son piezas industriales de moldes repetitivos o de cemento que pierden su color y sufren desgaste con la intemperie.</p>
+        <p data-reveal>En Jade Haus Arq. comenzamos un nuevo camino en ser los primeros fabricantes de celosías cerámicas artesanales de gres en Argentina. Creadas por Verónica y Javier, nuestras piezas ofrecen una resistencia térmica y estructural superior, ideal para filtrar la luz en fachadas y dividir ambientes con calidez.</p>
+        <p data-reveal>Acompañamos nuestro lanzamiento con azulejos hechos a mano. Nos diferencia el permanente desarrollo en diseño y nuestra investigación de esmaltes propios: no usamos recetas comerciales, logrando paletas de color exclusivas que solo vas a encontrar con nosotros.</p>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- ===== CATÁLOGO ===== -->
+  <section class="catalogo slide" id="catalogo" data-slide="2">
+    <div class="slide-scroll">
+    <div class="catalogo-head">
+      <p class="eyebrow">CATÁLOGO</p>
+      <h2 data-reveal>Próximamente</h2>
+    </div>
+    <div class="slider slider--catalogo" data-slider data-reveal>
+      <div class="slider-viewport">
+        <div class="slider-track" data-slider-track>
+          <div class="product-slide cat-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="1 de 3">
+            <div class="cat-card">
+              <span class="cat-card-index">01</span>
+              <span class="cat-card-media">
+                <img src="assets/img/cat-celosias-cover-new.jpg" alt="Celosías cerámicas Jade Haus Arq." loading="lazy" decoding="async" width="960" height="1280">
+              </span>
+              <span class="cat-card-overlay" aria-hidden="true"></span>
+              <span class="cat-card-copy">
+                <span class="cat-card-name">Celosías</span>
+              </span>
+            </div>
+          </div>
+          <div class="product-slide cat-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="2 de 3">
+            <div class="cat-card">
+              <span class="cat-card-index">02</span>
+              <span class="cat-card-media">
+                <img src="assets/img/cat-az-geo-cover-new.jpg" alt="Azulejos geométricos Jade Haus Arq." loading="lazy" decoding="async" width="960" height="1280">
+              </span>
+              <span class="cat-card-overlay" aria-hidden="true"></span>
+              <span class="cat-card-copy">
+                <span class="cat-card-name">Azulejos geométricos</span>
+              </span>
+            </div>
+          </div>
+          <div class="product-slide cat-slide" data-slider-slide role="group" aria-roledescription="diapositiva" aria-label="3 de 3">
+            <div class="cat-card">
+              <span class="cat-card-index">03</span>
+              <span class="cat-card-media">
+                <img src="assets/img/cat-az-clasico-cover-new.jpg" alt="Azulejos clásicos Jade Haus Arq." loading="lazy" decoding="async" width="960" height="1280">
+              </span>
+              <span class="cat-card-overlay" aria-hidden="true"></span>
+              <span class="cat-card-copy">
+                <span class="cat-card-name">Azulejos clásicos</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slider-scrollbar" data-slider-scrollbar role="scrollbar" aria-label="Desplazar colecciones" aria-orientation="horizontal">
+        <div class="slider-scrollbar-thumb" data-slider-thumb></div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACTO ===== -->
+  <section class="contacto slide" id="contacto" data-slide="3">
+    <div class="slide-scroll">
+    <div class="contacto-grid">
+      <div class="contacto-info">
+        <p class="eyebrow">CONTACTO</p>
+        <h2 data-reveal>Hablemos de tu proyecto.</h2>
+        <ul class="contacto-list" data-reveal>
+          <li>
+            <span>Email</span>
+            <a href="mailto:fjsastre@fernandosastre.com?subject=Consulta%20Jade%20Haus%20Arq.">
+              <svg class="contact-icon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <span>fjsastre@fernandosastre.com</span>
+            </a>
+          </li>
+          <li>
+            <span>Teléfono</span>
+            <a href="https://wa.me/1136448119" target="_blank" rel="noopener">
+              <svg class="contact-icon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.498 14.382c-.301-.15-1.781-.878-2.057-.978-.275-.1-.476-.15-.676.15-.2.3-.776.978-.951 1.178-.175.2-.351.225-.652.075-.301-.15-1.27-.468-2.42-1.494-.894-.798-1.498-1.784-1.674-2.084-.175-.3-.018-.462.13-.61.135-.133.301-.35.451-.525.15-.175.201-.3.301-.5.1-.2.05-.375-.025-.525-.075-.15-.676-1.63-.926-2.235-.243-.587-.49-.507-.676-.516-.175-.008-.376-.01-.576-.01-.2 0-.526.075-.802.375-.275.3-1.052 1.028-1.052 2.509 0 1.481 1.077 2.91 1.227 3.109.15.2 2.119 3.235 5.134 4.536.717.31 1.277.495 1.713.633.721.23 1.377.197 1.896.12.578-.087 1.781-.727 2.032-1.428.25-.7.25-1.303.175-1.428-.075-.125-.275-.2-.576-.35z"/><path d="M12 2a10 10 0 0 0-8.625 15.08L2 22l5.05-1.326A10 10 0 1 0 12 2z"/></svg>
+              <span>11 3644-8119</span>
+            </a>
+          </li>
+        </ul>
+        <p class="contacto-signature" data-reveal>— Equipo Jade Haus Arq.</p>
+      </div>
+      <form class="contacto-form" data-contact-form novalidate data-reveal>
+        <p class="contacto-form-title">Contame sobre tu proyecto</p>
+        <div class="field">
+          <input type="text" id="f-name" name="name" placeholder=" " required>
+          <label for="f-name">Nombre</label>
+        </div>
+        <div class="field">
+          <input type="email" id="f-email" name="email" placeholder=" " required>
+          <label for="f-email">Email</label>
+        </div>
+        <div class="field">
+          <input type="tel" id="f-phone" name="phone" placeholder=" ">
+          <label for="f-phone">Teléfono</label>
+        </div>
+        <button type="submit" class="btn btn-primary cta-submit">
+          <span class="cta-form-label">Enviar</span>
+          <span class="cta-form-spinner"></span>
+          <svg class="cta-form-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6" pathLength="1" /></svg>
+        </button>
+        <p class="contacto-form-note">Responderemos a la brevedad de lunes a viernes.</p>
+        <div class="cta-success" data-contact-success aria-hidden="true">
+          <h3>Recibido.</h3>
+          <p data-contact-success-msg></p>
+        </div>
+      </form>
+    </div>
+
+    <!-- ============================= FOOTER (part of the Contacto slide) ============================= -->
+    <footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-col footer-col--brand">
+        <a class="footer-logo" href="#inicio" data-slide-link="0" aria-label="Jade Haus Arq. — inicio">
+          <img src="assets/img/logo-mark.webp" alt="" width="489" height="320">
+          <em>JADE HAUS ARQ.</em>
+        </a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Navegación</p>
+        <a href="#inicio" data-slide-link="0">Home</a>
+        <a href="#nosotros" data-slide-link="1">Nosotros</a>
+        <a href="#catalogo" data-slide-link="2">Catálogo</a>
+        <a href="#contacto" data-slide-link="3">Contacto</a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Contacto</p>
+        <a href="mailto:fjsastre@fernandosastre.com?subject=Consulta%20Jade%20Haus%20Arq.">
+          <svg class="contact-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span>fjsastre@fernandosastre.com</span>
+        </a>
+        <a href="https://wa.me/1136448119" target="_blank" rel="noopener">
+          <svg class="contact-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.498 14.382c-.301-.15-1.781-.878-2.057-.978-.275-.1-.476-.15-.676.15-.2.3-.776.978-.951 1.178-.175.2-.351.225-.652.075-.301-.15-1.27-.468-2.42-1.494-.894-.798-1.498-1.784-1.674-2.084-.175-.3-.018-.462.13-.61.135-.133.301-.35.451-.525.15-.175.201-.3.301-.5.1-.2.05-.375-.025-.525-.075-.15-.676-1.63-.926-2.235-.243-.587-.49-.507-.676-.516-.175-.008-.376-.01-.576-.01-.2 0-.526.075-.802.375-.275.3-1.052 1.028-1.052 2.509 0 1.481 1.077 2.91 1.227 3.109.15.2 2.119 3.235 5.134 4.536.717.31 1.277.495 1.713.633.721.23 1.377.197 1.896.12.578-.087 1.781-.727 2.032-1.428.25-.7.25-1.303.175-1.428-.075-.125-.275-.2-.576-.35z"/><path d="M12 2a10 10 0 0 0-8.625 15.08L2 22l5.05-1.326A10 10 0 1 0 12 2z"/></svg>
+          <span>11 3644-8119</span>
+        </a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">Redes</p>
+        <a href="https://www.instagram.com/celosias.ar" target="_blank" rel="noopener">
+          <svg class="contact-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          <span>Instagram</span>
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Jade Haus Arq. Todos los derechos reservados.</p>
+      <a class="footer-copy" href="creditos.html">Créditos fotográficos →</a>
+    </div>
+  </div>
+    </footer>
+    </div>
+  </section>
+
+</main>
+
+<script defer src="lib/manifest.js"></script>
+<script defer src="main.js?v=20260845"></script>
+</body>
+</html>
