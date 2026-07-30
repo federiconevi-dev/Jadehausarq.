@@ -537,6 +537,12 @@ html[data-active-slide="3"] .menu-link[data-slide-link="3"] { display: none; }
 
 .product-card { display: flex; flex-direction: column; }
 .product-swatch { aspect-ratio: 3.2 / 1; border: 1px solid var(--panel-line); transition: transform .6s var(--ease-soft); }
+/* Celosías-only: a real lifestyle photo instead of a flat color band,
+   static across every product in this category — only the two photos
+   below (.product-photos) change per product, showing that color's own
+   detail shots. Separate class from .product-swatch (which the other two
+   categories still use) so this doesn't affect them. */
+.product-photo-header { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border: 1px solid var(--panel-line); }
 .product-photos { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; margin-top: .7rem; overflow: hidden; }
 /* Product photos stay put — no dimming for off-screen slides, no hover zoom.
    Zoom is reserved for the big catalog entry cards (.cat-card-media), not
