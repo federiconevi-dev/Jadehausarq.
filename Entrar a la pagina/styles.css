@@ -491,11 +491,11 @@ html[data-active-slide="3"] .menu-link[data-slide-link="3"] { display: none; }
 }
 
 /* Catalog panel categories */
-.side-panel-inner--catalog { padding-inline: 0; padding-top: calc(var(--nav-h) + 1rem); }
+.side-panel-inner--catalog { padding-inline: 0; padding-top: calc(var(--nav-h) + .3rem); }
 .cat-panel-category { display: none; flex: 1; flex-direction: column; min-height: 0; }
 .cat-panel-category.is-active { display: flex; }
 .cat-panel-header {
-  padding-inline: clamp(1.5rem, 4vw, 2.6rem); margin-bottom: clamp(1.4rem, 4vh, 2.2rem);
+  padding-inline: clamp(1.5rem, 4vw, 2.6rem); margin-bottom: clamp(.8rem, 2vh, 1.2rem);
   text-align: center; max-width: 720px; margin-inline: auto; width: 100%;
 }
 .cat-panel-eyebrow, .cat-panel-title, .cat-panel-desc {
