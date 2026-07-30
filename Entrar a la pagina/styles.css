@@ -11,10 +11,17 @@
   --line: rgba(60, 60, 59, 0.16);
   --line-strong: rgba(60, 60, 59, 0.32);
 
-  --panel-bg: #E5E4E1;
-  --panel-ink: #3C3C3B;
-  --panel-ink-mute: rgba(60, 60, 59, 0.65);
-  --panel-line: rgba(60, 60, 59, 0.18);
+  /* The catálogo panel is a deliberately dark "island" — matches the nav's
+     own #141311 treatment on slide 2 (html[data-active-slide="2"]
+     .nav.is-scrolled) and .nav-logo-jh's invert(1) on .is-panel-open, both
+     already dark-only and untouched by the light-palette rewrite. Was
+     flattened to the light --bg/--ink pair at some point, leaving the nav
+     dark but the panel content behind it light — restored here so the two
+     match again. */
+  --panel-bg: #141311;
+  --panel-ink: #E5E4E1;
+  --panel-ink-mute: rgba(229, 228, 225, 0.65);
+  --panel-line: rgba(229, 228, 225, 0.18);
 
   --overlay: rgba(60, 60, 59, 0.4);
 
