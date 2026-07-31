@@ -284,22 +284,33 @@ html[data-active-slide="2"] .nav.is-scrolled {
   display: flex; align-items: center; justify-content: space-between;
 }
 .nav-logo { display: flex; align-items: center; gap: .65rem; }
+/* Filled with currentColor through a mask instead of an <img> + filter:invert
+   — invert() only approximates whatever color the surrounding text happens
+   to be (e.g. inverted-black lands on pure white, not the site's actual
+   #E5E4E1 text color), so the mark and "las otras letras" never quite
+   matched. Masking guarantees an exact match in every context — dark panel,
+   light nav, wherever — automatically, since it just inherits .nav's own
+   color instead of needing separate light/dark rules for the logo at all. */
 .nav-logo-jh {
   width: 80px;
-  height: auto;
+  aspect-ratio: 489 / 320;
   display: block;
-  transition: filter .5s var(--ease-out), opacity .5s var(--ease-out), width .5s var(--ease-out);
+  background-color: currentColor;
+  -webkit-mask-image: url("assets/img/logo-mark.webp");
+  mask-image: url("assets/img/logo-mark.webp");
+  -webkit-mask-size: contain; mask-size: contain;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center;
+  transition: opacity .5s var(--ease-out), width .5s var(--ease-out);
 }
 .nav:not(.is-scrolled) .nav-logo-jh,
 html[data-active-slide="2"] .nav-logo-jh,
 .nav.is-panel-open .nav-logo-jh {
-  filter: invert(1) !important;
   opacity: 0.95 !important;
   width: 80px;
 }
 html[data-active-slide="1"] .nav-logo-jh,
 html[data-active-slide="3"] .nav-logo-jh {
-  filter: none !important;
   opacity: 0.78 !important;
 }
 .nav-logo-name { font-family: var(--font-mono); font-size: .62rem; letter-spacing: 0.16em; opacity: .82; display: none; }
@@ -506,7 +517,12 @@ html[data-active-slide="3"] .menu-link[data-slide-link="3"] { display: none; }
 .side-panel--catalog.is-open .cat-panel-title { opacity: 1; transform: none; transition-delay: .4s; }
 .side-panel--catalog.is-open .cat-panel-desc { opacity: 1; transform: none; transition-delay: .48s; }
 .cat-panel-eyebrow { font-family: var(--font-mono); font-size: .68rem; letter-spacing: 0.14em; color: var(--panel-ink-mute); margin-bottom: .6rem; }
-.cat-panel-title { font-size: clamp(1.8rem, 4.6vw, 2.6rem); margin-bottom: .7rem; font-weight: 500; }
+/* The global h1-h4 rule sets color:var(--ink) (the light-page dark text) on
+   every heading including this one — since that targets the element
+   directly rather than relying on inheritance, it was winning over the
+   dark panel's own var(--panel-ink), making the title render in the wrong
+   (page) color instead of the panel's. */
+.cat-panel-title { font-size: clamp(1.8rem, 4.6vw, 2.6rem); margin-bottom: .7rem; font-weight: 500; color: var(--panel-ink); }
 .cat-panel-desc { color: var(--panel-ink-mute); font-size: .92rem; max-width: 42ch; margin-inline: auto; }
 
 /* =============================================================
