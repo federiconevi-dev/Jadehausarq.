@@ -728,8 +728,8 @@ html[data-active-slide="3"] .menu-link[data-slide-link="3"] { display: none; }
 }
 .hero-media-img.is-active { opacity: 1; }
 @keyframes heroZoomIn {
-  0% { transform: scale(1.08); }
-  100% { transform: scale(1.18); }
+  0% { transform: scale(1); }
+  100% { transform: scale(1.06); }
 }
 /* Shared-element ghost for the Hero → Catálogo jump (see
    heroToCatalogoTransition in main.js) — a plain <img> that starts sized
