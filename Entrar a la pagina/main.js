@@ -259,7 +259,21 @@
     var heroImg = $(".hero-media-img.is-active") || $(".hero-media-img");
     var catalogoSlide = slides[2];
     var celosiasCard = catalogoSlide && $('.cat-card', catalogoSlide);
-    if (!heroImg || !catalogoSlide || !celosiasCard) { showSlideDirect(2); return; }
+    // showSlideDirect(2, true) below, not showSlideDirect(2) — currentIndex
+    // is still 0 at this point, and showSlideDirect's own index===2 &&
+    // currentIndex===0 special case would otherwise call straight back into
+    // this same function, an infinite loop. The `true` skips that check.
+    if (!heroImg || !catalogoSlide || !celosiasCard) { showSlideDirect(2, true); return; }
+
+    // The flip only reads right when the photo currently on screen actually
+    // IS the Celosías card's own photo — celosiasCard is always the first
+    // .cat-card (Celosías), so flying any of the other 4 rotating hero
+    // photos (geométricos, clásicos, or the 2 ambiance shots with no card
+    // of their own) into it lands on a visibly different photo, a jarring
+    // mismatch/"jump" right as it lands. Matches both the desktop filename
+    // and its "-mobile" variant.
+    var activeFile = (heroImg.currentSrc || heroImg.src).split("/").pop().replace("-mobile.webp", ".webp");
+    if (activeFile !== "hero-celosias.webp") { showSlideDirect(2, true); return; }
 
     clearAutoAdvance();
     var outgoing = slides[currentIndex];
@@ -268,12 +282,6 @@
     currentIndex = 2;
     catalogoSlide.classList.add("is-active");
     updateNavForSlide(currentIndex);
-
-    var HERO_TO_CARD_COVER = {
-      "hero-celosias.webp": "cat-celosias-cover-new.jpg",
-      "hero-az-geo.webp": "cat-az-geo-cover-new.jpg",
-      "hero-az-clasico.webp": "cat-az-clasico-cover-new.jpg"
-    };
 
     // Hide just the Celosías card (not the rest of the slider, which fades
     // in normally below) until the ghost image lands. Opacity (not
@@ -449,11 +457,11 @@
     setTimeout(onLanded, 1100);
   }
 
-  function showSlideDirect(index) {
+  function showSlideDirect(index, skipFlip) {
     if (!slides.length) return;
     index = ((index % slides.length) + slides.length) % slides.length;
     if (index === currentIndex) return;
-    if (index === 2 && currentIndex === 0) { heroToCatalogoTransition(); return; }
+    if (!skipFlip && index === 2 && currentIndex === 0) { heroToCatalogoTransition(); return; }
     clearAutoAdvance();
     var outgoing = slides[currentIndex];
     var incoming = slides[index];

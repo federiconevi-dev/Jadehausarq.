@@ -698,6 +698,17 @@ html[data-active-slide="3"] .menu-link[data-slide-link="3"] { display: none; }
   background: transparent !important;
 }
 .hero-media { position: absolute; top: -18%; left: 0; right: 0; height: 136%; z-index: -2; overflow: hidden; background: transparent !important; }
+/* The 136%/-18% oversize exists for landscape desktop photos in a
+   landscape-ish viewport, giving the zoom room to breathe. On a phone the
+   hero photos are already portrait (1080x1920) and phone viewports are
+   themselves narrower than that photo's own aspect ratio — stacking the
+   same 36% oversize on top compounds into a very aggressive width crop
+   (~40% of the photo gone), on top of the zoom being much subtler now
+   anyway (see heroZoomIn, scale(1) to scale(1.06)). Much smaller buffer
+   here shows most of the photo intact instead. */
+@media (max-width: 768px) {
+  .hero-media { top: -4%; height: 108%; }
+}
 /* Three photos stacked in the same box, crossfading in a loop (see
    startHeroLoop in main.js) — only one is opacity:1 ("is-active") at a
    time. Each still runs its own slow, continuous Ken Burns breathe
@@ -721,8 +732,11 @@ html[data-active-slide="3"] .menu-link[data-slide-link="3"] { display: none; }
   /* On a narrow/portrait crop, centering this specific photo lands on the
      grey boundary wall and pool instead of the celosía itself — the wall
      that's actually the point of the photo sits in the left ~45% of the
-     frame. Biasing the crop left keeps it in frame on mobile. */
-  .hero-media-img[src*="hero-celosias"] {
+     frame. Biasing the crop left keeps it in frame on mobile. $= (exact
+     suffix match on the desktop src="assets/img/hero-celosias.webp") not
+     *= — a substring match here also caught hero-celosias-oficina.webp,
+     silently forcing this same 15%-left bias onto an unrelated photo. */
+  .hero-media-img[src$="hero-celosias.webp"] {
     object-position: 15% center !important;
   }
 }
