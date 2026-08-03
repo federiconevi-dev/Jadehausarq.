@@ -15,7 +15,7 @@
 
 <link rel="preload" as="image" href="assets/img/hero-celosias-mobile.webp" media="(max-width: 1024px)" fetchpriority="high">
 <link rel="preload" as="image" href="assets/img/hero-celosias.webp" media="(min-width: 1025px)" fetchpriority="high">
-<link rel="stylesheet" href="styles.css?v=20260918">
+<link rel="stylesheet" href="styles.css?v=20260919">
 <noscript><style>
   [data-reveal],[data-reveal-hero],[data-reveal-mask]{opacity:1!important;transform:none!important;clip-path:none!important;}
   .side-panel{position:static!important;transform:none!important;width:100%!important;height:auto!important;opacity:1!important;}
@@ -641,13 +641,11 @@
         <source media="(max-width: 1024px)" srcset="assets/img/hero-rubi-living-mobile.webp">
         <img class="hero-media-img" src="assets/img/hero-celosias-oficina.webp" alt="Celosías cerámicas Jade Haus Arq." data-hero-slide loading="eager" decoding="async" width="1600" height="900">
       </picture>
-      <picture>
-        <source media="(max-width: 1024px)" srcset="assets/img/hero-az-geo-mobile.webp">
-        <img class="hero-media-img" src="assets/img/hero-az-geo.webp" alt="Azulejos geométricos Jade Haus Arq." data-hero-slide loading="eager" decoding="async" width="1600" height="900">
+      <picture class="hero-desktop-only">
+        <img class="hero-media-img" src="assets/img/hero-az-geo.webp" alt="Azulejos geométricos Jade Haus Arq." data-hero-slide data-desktop-only loading="lazy" decoding="async" width="1600" height="900">
       </picture>
-      <picture>
-        <source media="(max-width: 1024px)" srcset="assets/img/hero-az-clasico-mobile.webp">
-        <img class="hero-media-img" src="assets/img/hero-az-clasico.webp" alt="Azulejos clásicos Jade Haus Arq." data-hero-slide loading="eager" decoding="async" width="1600" height="900">
+      <picture class="hero-desktop-only">
+        <img class="hero-media-img" src="assets/img/hero-az-clasico.webp" alt="Azulejos clásicos Jade Haus Arq." data-hero-slide data-desktop-only loading="lazy" decoding="async" width="1600" height="900">
       </picture>
     </div>
     <div class="hero-overlay" aria-hidden="true"></div>
@@ -831,6 +829,6 @@
 </main>
 
 <script defer src="lib/manifest.js"></script>
-<script defer src="main.js?v=20260845"></script>
+<script defer src="main.js?v=20260846"></script>
 </body>
 </html>

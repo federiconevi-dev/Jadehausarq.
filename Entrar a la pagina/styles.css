@@ -707,7 +707,16 @@ html[data-active-slide="3"] .menu-link[data-slide-link="3"] { display: none; }
    anyway (see heroZoomIn, scale(1) to scale(1.06)). Much smaller buffer
    here shows most of the photo intact instead. */
 @media (max-width: 768px) {
-  .hero-media { top: -4%; height: 108%; }
+  .hero-media { top: -4%; height: 108%; background: var(--panel-bg) !important; }
+}
+/* Mobile/tablet loop is just 3 photos (celosías, oficina, rubí) — az-geo
+   and az-clasico stay desktop-only. 1024px matches the same breakpoint the
+   <picture><source> elements switch on, not the 768px above, so there's no
+   gap where a tablet-width screen still shows/fetches these two. Paired
+   with the data-desktop-only filter in startHeroLoop (main.js) so the loop
+   never lands on a hidden slide either. */
+@media (max-width: 1024px) {
+  .hero-desktop-only { display: none; }
 }
 /* Three photos stacked in the same box, crossfading in a loop (see
    startHeroLoop in main.js) — only one is opacity:1 ("is-active") at a
@@ -726,18 +735,16 @@ html[data-active-slide="3"] .menu-link[data-slide-link="3"] { display: none; }
   animation: heroZoomIn 8s var(--ease-soft) infinite alternate;
 }
 @media (max-width: 768px) {
+  /* object-fit:cover always crops something — on a phone viewport (itself
+     narrower than even a 9:16 photo) that was still ~24% of the photo's
+     width gone even after shrinking .hero-media's oversize above. contain
+     shows the entire photo with nothing cut off, letterboxed against
+     .hero-media's own dark background instead. The old src-specific 15%-
+     left bias existed only to compensate for cover's crop — with nothing
+     being cropped anymore, it's not needed. */
   .hero-media-img {
+    object-fit: contain;
     object-position: center !important;
-  }
-  /* On a narrow/portrait crop, centering this specific photo lands on the
-     grey boundary wall and pool instead of the celosía itself — the wall
-     that's actually the point of the photo sits in the left ~45% of the
-     frame. Biasing the crop left keeps it in frame on mobile. $= (exact
-     suffix match on the desktop src="assets/img/hero-celosias.webp") not
-     *= — a substring match here also caught hero-celosias-oficina.webp,
-     silently forcing this same 15%-left bias onto an unrelated photo. */
-  .hero-media-img[src$="hero-celosias.webp"] {
-    object-position: 15% center !important;
   }
 }
 .hero-media-img.is-active { opacity: 1; }

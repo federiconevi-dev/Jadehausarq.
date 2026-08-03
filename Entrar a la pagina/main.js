@@ -202,7 +202,15 @@
   var HERO_LOOP_MS = 6500;
   var heroLoopTimer = null;
   function startHeroLoop() {
-    var heroImgs = $$(".hero-media-img");
+    // On mobile/tablet the loop is just 3 photos — az-geo/az-clasico carry
+    // data-desktop-only and are display:none there (see the 1024px rule in
+    // styles.css) — excluding them here too, not just visually hiding them,
+    // so the loop never spends one of its 6.5s beats "showing" a hidden
+    // slide (which would look like the loop randomly going blank).
+    var isMobile = window.matchMedia("(max-width: 1024px)").matches;
+    var heroImgs = $$(".hero-media-img").filter(function (img) {
+      return !(isMobile && img.hasAttribute("data-desktop-only"));
+    });
     if (heroImgs.length < 2) return;
     var i = 0;
     (function tick() {
