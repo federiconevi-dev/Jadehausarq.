@@ -1,36 +1,55 @@
-(function () {
-  "use strict";
-  function esc(s) {
-    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
-    });
-  }
-  function render() {
-    var list = document.querySelector("[data-credits]");
-    if (!list) return;
-    fetch("assets/credits.json")
-      .then(function (r) { return r.json(); })
-      .then(function (credits) {
-        var ids = Object.keys(credits);
-        if (!ids.length) { list.innerHTML = "<li>No hay créditos externos.</li>"; return; }
-        list.innerHTML = ids.map(function (id) {
-          var c = credits[id];
-          return (
-            "<li><strong>" + esc(c.title || id) + "</strong> — " +
-            (c.creator_url ? '<a href="' + esc(c.creator_url) + '" target="_blank" rel="noopener">' + esc(c.creator || "autor desconocido") + "</a>" : esc(c.creator || "autor desconocido")) +
-            " (" + esc(c.source || "") + ") · " +
-            '<a href="' + esc(c.license_url) + '" target="_blank" rel="noopener">' + esc((c.license || "").toUpperCase()) + " " + esc(c.license_version || "") + "</a> · " +
-            '<a href="' + esc(c.foreign_landing_url) + '" target="_blank" rel="noopener">Ver original ↗</a></li>'
-          );
-        }).join("");
-      })
-      .catch(function () {
-        list.innerHTML = "<li>No se pudieron cargar los créditos.</li>";
+(function() {
+  'use strict';
+
+  var creditsList = document.querySelector('[data-credits]');
+  if (!creditsList) return;
+
+  // Cargar el archivo JSON
+  fetch('assets/credits.json')
+    .then(function(response) {
+      if (!response.ok) throw new Error('No se pudo cargar credits.json');
+      return response.json();
+    })
+    .then(function(data) {
+      var html = '';
+      var keys = Object.keys(data).sort();
+      
+      keys.forEach(function(key) {
+        var credit = data[key];
+        var licenseName = getLicenseName(credit.license, credit.license_version);
+        
+        html += '<li>';
+        html += '<strong>' + escapeHtml(credit.title) + '</strong><br>';
+        html += 'Por <a href="' + escapeHtml(credit.creator_url) + '" target="_blank" rel="noopener">' + escapeHtml(credit.creator) + '</a> · ';
+        html += '<a href="' + escapeHtml(credit.license_url) + '" target="_blank" rel="noopener">' + licenseName + '</a> · ';
+        html += 'Fuente: <a href="' + escapeHtml(credit.foreign_landing_url) + '" target="_blank" rel="noopener">' + escapeHtml(credit.source) + '</a>';
+        html += '</li>';
       });
+      
+      creditsList.innerHTML = html;
+    })
+    .catch(function(error) {
+      creditsList.innerHTML = '<li>Error al cargar los créditos. Por favor intenta más tarde.</li>';
+      console.error('Error cargando créditos:', error);
+    });
+
+  function getLicenseName(license, version) {
+    var names = {
+      'by': 'CC BY',
+      'by-sa': 'CC BY-SA',
+      'by-nd': 'CC BY-ND',
+      'by-nc': 'CC BY-NC',
+      'by-nc-sa': 'CC BY-NC-SA',
+      'by-nc-nd': 'CC BY-NC-ND',
+      'cc0': 'CC0'
+    };
+    var name = names[license.toLowerCase()] || license.toUpperCase();
+    return version ? name + ' ' + version : name;
   }
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", render);
-  } else {
-    render();
+
+  function escapeHtml(text) {
+    var div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
   }
 })();

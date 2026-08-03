@@ -102,11 +102,8 @@
       contentDuration = 950;
     }
 
-    // Exit: once everything above has finished, the loader opens like a
-    // curtain from the center (see .loader-panel in CSS) instead of wiping
-    // top-to-bottom. The buffer here just needs to clear the curtain's own
-    // transition (.6s brief / .6s quick, see CSS) plus a small margin.
-    var hideBuffer = isFirstPlay ? 2250 : 750;
+    // Exit: cortina se desliza de derecha a izquierda, lento y suave
+    var hideBuffer = isFirstPlay ? 2200 : 900;
     schedule(function () {
       safe(onContentDone, "loader:onContentDone");
       loader.classList.add("is-hiding");
@@ -123,9 +120,16 @@
   ----------------------------------------------------------- */
   function revealSlide(slideEl) {
     if (!slideEl) return;
+    // Transición simple: elementos aparecen gradualmente
     var els = $$("[data-reveal], [data-reveal-mask]", slideEl);
+
+    // Delay para que empiece mientras el loader se va
+    var initialDelay = 500;
+
     els.forEach(function (el, i) {
-      setTimeout(function () { el.classList.add("is-revealed"); }, i * 220);
+      setTimeout(function () {
+        el.classList.add("is-revealed");
+      }, initialDelay + (i * 80));
     });
     if (slideEl.getAttribute("data-slide") === "1") safe(triggerCountUp, "triggerCountUp");
   }
