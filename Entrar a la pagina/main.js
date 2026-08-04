@@ -277,14 +277,18 @@
     // this same function, an infinite loop. The `true` skips that check.
     if (!heroImg || !catalogoSlide || !celosiasCard) { showSlideDirect(2, true); return; }
 
-    // The flip only reads right when the photo currently on screen actually
-    // IS the Celosías card's own photo — celosiasCard is always the first
-    // .cat-card (Celosías), so flying any of the other 4 rotating hero
-    // photos (geométricos, clásicos, or the 2 ambiance shots with no card
-    // of their own) into it lands on a visibly different photo, a jarring
-    // mismatch/"jump" right as it lands. Matches both the desktop filename
-    // and its "-mobile" variant.
-    var activeFile = (heroImg.currentSrc || heroImg.src).split("/").pop().replace("-mobile.webp", ".webp");
+    // The flip only reads right when the active slide is the Celosías one —
+    // celosiasCard is always the first .cat-card (Celosías), so flying any
+    // of the other rotating hero photos (geométricos, clásicos, or the
+    // ambiance shots with no card of their own) into it lands on a visibly
+    // different photo, a jarring mismatch/"jump" right as it lands. Checked
+    // against the <img> tag's own src ATTRIBUTE (always "hero-celosias.webp"
+    // for this slide, written once in the HTML), not currentSrc — currentSrc
+    // reflects whichever <source> the browser picked for the viewport (the
+    // mobile crop can be a completely different filename with no shared
+    // naming pattern to the desktop one, e.g. hero-terracota-pileta-mobile.
+    // webp), so it can't be used to identify which slide this is.
+    var activeFile = heroImg.getAttribute("src").split("/").pop();
     if (activeFile !== "hero-celosias.webp") { showSlideDirect(2, true); return; }
 
     clearAutoAdvance();
