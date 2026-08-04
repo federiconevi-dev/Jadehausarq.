@@ -682,44 +682,73 @@
       if (!track || !slides.length) return;
 
       var current = 0;
-      // A tap landing while the previous smooth scroll was still animating
-      // used to just re-issue scrollTo with a new absolute target, trusting
-      // the browser to smoothly redirect the in-flight animation — but iOS
-      // Safari's handling of a second scrollTo({behavior:"smooth"}) call
-      // before the first finishes is unreliable (sometimes redirects
-      // cleanly, sometimes settles short/long of the target), which is
-      // exactly "skips a product going right, needs a second tap going
-      // left." Forcing an instant (non-smooth) jump whenever a tap lands
-      // mid-animation sidesteps that entirely — always lands exactly on the
-      // requested slide, no matter how fast someone taps. Only a tap from a
-      // fully settled state gets the smooth animation.
+      // Button/dot navigation used to hand off to the browser's own
+      // scrollTo({behavior:"smooth"}), which fights on two fronts once a
+      // tap lands before the previous one settled: (1) iOS Safari doesn't
+      // reliably redirect a second in-flight smooth scrollTo call, and
+      // (2) .product-slide's scroll-snap-stop:always (there so a fast
+      // finger swipe can't fling past more than one slide) forces the
+      // browser to physically stop at every intermediate snap point on a
+      // multi-step jump instead of landing cleanly. Both together are what
+      // read as "the movement gets stuck / skips a product going right,
+      // needs a second tap going left."
       //
-      // .product-slide also carries scroll-snap-stop:always (see styles.css)
-      // so a fast finger swipe can't fling past more than one slide — but
-      // that same rule applies to scrollTo() calls from here too, and fights
-      // a multi-slide or rapid-tap jump: the browser insists on physically
-      // stopping at every intermediate snap point on the way, which is what
-      // actually caused "skips a product going right, needs a second tap
-      // going left" (not just a smooth-vs-instant timing issue). Turning
-      // scroll-snap-type off for the duration of a programmatic jump lets it
-      // land exactly on the requested slide unobstructed; re-enabling it
-      // once settled restores normal swipe-to-snap behavior.
-      var settleTimer = null;
+      // Driving the animation by hand instead — rAF loop writing
+      // track.scrollLeft directly, with scroll-snap-type off for its whole
+      // duration — sidesteps both: a plain scrollLeft write isn't subject
+      // to snap-stop or to the browser's own smooth-scroll interruption
+      // handling at all, and a new tap just retargets the same loop from
+      // wherever it currently is, deterministically, in this code instead
+      // of leaving it up to the browser.
+      var rafId = null;
+      var animFrom = 0, animTo = 0, animStart = 0;
+      var ANIM_MS = 380;
+      function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+      function stepAnim(ts) {
+        if (!animStart) animStart = ts;
+        var t = Math.min(1, (ts - animStart) / ANIM_MS);
+        track.scrollLeft = animFrom + (animTo - animFrom) * easeOutCubic(t);
+        if (t < 1) {
+          rafId = requestAnimationFrame(stepAnim);
+        } else {
+          rafId = null;
+          track.style.scrollSnapType = "";
+        }
+      }
       function goTo(i, instant) {
-        if (settleTimer) instant = true;
         current = Math.max(0, Math.min(slides.length - 1, i));
         var slide = slides[current];
-        // Centers the target slide within the track's own visible width —
-        // for full-width slides (product sliders) this lands the same as a
+        // slide.offsetLeft turned out NOT to be reliably relative to the
+        // track itself here (offsetParent bubbles up past the track to
+        // whichever ancestor is actually positioned) — it was consistently
+        // off by a fixed amount, which is exactly the ~37px drift that kept
+        // showing up at the first/last slide no matter how the animation
+        // itself was fixed. getBoundingClientRect() gives true on-screen
+        // coordinates for both, so their difference is unambiguous
+        // regardless of the offsetParent chain, then added to the track's
+        // own current scrollLeft to get an absolute scroll target. Centers
+        // the target slide within the track's own visible width — for
+        // full-width slides (product sliders) this lands the same as a
         // plain left-align since there's no extra room either side; for
         // narrower slides (the catalogo overview) it's what lets the
         // previous and next cards peek in symmetrically on both sides.
-        var centeredLeft = slide.offsetLeft - (track.clientWidth - slide.offsetWidth) / 2;
-        var willAnimate = !instant && !reduced;
-        clearTimeout(settleTimer);
-        settleTimer = null;
-        track.style.scrollSnapType = "none";
-        track.scrollTo({ left: centeredLeft, behavior: willAnimate ? "smooth" : "auto" });
+        var slideRect = slide.getBoundingClientRect();
+        var trackRect = track.getBoundingClientRect();
+        var rawLeft = track.scrollLeft + (slideRect.left - trackRect.left) - (track.clientWidth - slide.offsetWidth) / 2;
+        var maxScroll = track.scrollWidth - track.clientWidth;
+        var centeredLeft = Math.max(0, Math.min(maxScroll, rawLeft));
+        if (rafId) cancelAnimationFrame(rafId);
+        if (instant || reduced) {
+          rafId = null;
+          track.style.scrollSnapType = "";
+          track.scrollLeft = centeredLeft;
+        } else {
+          track.style.scrollSnapType = "none";
+          animFrom = track.scrollLeft;
+          animTo = centeredLeft;
+          animStart = 0;
+          rafId = requestAnimationFrame(stepAnim);
+        }
         setActive(current);
         // Same reasoning as the drag handler below: don't rely solely on the
         // track's native "scroll" event to redraw the bar — it doesn't fire
@@ -727,17 +756,6 @@
         // press landing on the right slide while the bar itself stays put
         // reads as broken even though the navigation actually worked.
         updateThumb();
-        var restoreSnap = function () { track.style.scrollSnapType = ""; };
-        if (willAnimate) {
-          // "scrollend" is the correct, precise signal where supported;
-          // the timeout is a safety net for browsers that don't fire it.
-          settleTimer = setTimeout(function () { settleTimer = null; restoreSnap(); }, 500);
-        } else {
-          // Instant jumps resolve synchronously, but restoring snap on the
-          // very next frame (rather than immediately) avoids the browser
-          // reasserting a snap point mid-jump on some engines.
-          requestAnimationFrame(restoreSnap);
-        }
       }
       function setActive(i) {
         dots.forEach(function (d, di) { d.classList.toggle("is-active", di === i); });
@@ -769,14 +787,21 @@
           setActive(current);
         }
       }
+      // Only react to scroll/scrollend when nothing here is mid-flight (no
+      // active rAF animation from goTo) — otherwise a "scrollend" firing
+      // partway through the hand-rolled animation above (a brief gap
+      // between frames can look like idle scroll activity to the browser)
+      // would read the in-transit position as the destination and stomp
+      // `current` with the wrong slide right before the animation actually
+      // finishes there itself.
       var scrollSyncTimer = null;
       track.addEventListener("scroll", function () {
+        if (rafId) return;
         clearTimeout(scrollSyncTimer);
         scrollSyncTimer = setTimeout(syncCurrentFromScroll, 120);
       }, { passive: true });
       track.addEventListener("scrollend", function () {
-        clearTimeout(settleTimer);
-        settleTimer = null;
+        if (rafId) return;
         clearTimeout(scrollSyncTimer);
         syncCurrentFromScroll();
       });
