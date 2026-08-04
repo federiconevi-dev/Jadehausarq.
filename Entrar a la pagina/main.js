@@ -277,20 +277,14 @@
     // this same function, an infinite loop. The `true` skips that check.
     if (!heroImg || !catalogoSlide || !celosiasCard) { showSlideDirect(2, true); return; }
 
-    // The flip only reads right when the active slide is the Celosías one —
-    // celosiasCard is always the first .cat-card (Celosías), so flying any
-    // of the other rotating hero photos (geométricos, clásicos, or the
-    // ambiance shots with no card of their own) into it lands on a visibly
-    // different photo, a jarring mismatch/"jump" right as it lands. Checked
-    // against the <img> tag's own src ATTRIBUTE (always "hero-celosias.webp"
-    // for this slide, written once in the HTML), not currentSrc — currentSrc
-    // reflects whichever <source> the browser picked for the viewport (the
-    // mobile crop can be a completely different filename with no shared
-    // naming pattern to the desktop one, e.g. hero-terracota-pileta-mobile.
-    // webp), so it can't be used to identify which slide this is.
-    var activeFile = heroImg.getAttribute("src").split("/").pop();
-    if (activeFile !== "hero-celosias.webp") { showSlideDirect(2, true); return; }
-
+    // Flies whichever of the 3 rotating hero photos is on screen at the
+    // moment of the tap — celosiasCard is always the first .cat-card
+    // (Celosías), so when the flying photo isn't that one, what lands is a
+    // different photo than what flew in. That's smoothed over by the
+    // crossfade below (ghost fades out to 0 while the real card fades in to
+    // 1, at the same time — see onLanded) rather than an instant swap, so
+    // it reads as "the photo settles into the card" instead of a jarring
+    // pop, even when they don't match exactly.
     clearAutoAdvance();
     var outgoing = slides[currentIndex];
     outgoing.classList.remove("is-active");
