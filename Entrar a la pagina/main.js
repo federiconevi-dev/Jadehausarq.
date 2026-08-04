@@ -682,14 +682,17 @@
       if (!track || !slides.length) return;
 
       var current = 0;
-      // Guards against a second tap landing while the first smooth scroll
-      // is still animating — two scrollTo calls fighting mid-flight is
-      // exactly what made a single arrow tap look like it needed two
-      // (the first scroll would get interrupted/redirected part-way and
-      // settle somewhere between two products instead of on the next one).
+      // A tap landing while the previous smooth scroll is still animating
+      // used to be silently dropped here (to avoid two scrollTo calls
+      // fighting mid-flight) — but that made a quick second tap look like it
+      // did nothing, and the tap after THAT one would then jump two slides
+      // at once, reading as "skips" one way and "needs two taps" the other.
+      // Since centeredLeft below is always an absolute target (computed from
+      // the slide's own offsetLeft, never from the current scroll position),
+      // re-issuing scrollTo mid-flight just smoothly redirects toward the
+      // new target instead of fighting — no need to block it at all.
       var settleTimer = null;
       function goTo(i, instant) {
-        if (!instant && !reduced && settleTimer) return;
         current = Math.max(0, Math.min(slides.length - 1, i));
         var slide = slides[current];
         // Centers the target slide within the track's own visible width —
