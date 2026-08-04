@@ -682,17 +682,31 @@
       if (!track || !slides.length) return;
 
       var current = 0;
-      // A tap landing while the previous smooth scroll is still animating
-      // used to be silently dropped here (to avoid two scrollTo calls
-      // fighting mid-flight) — but that made a quick second tap look like it
-      // did nothing, and the tap after THAT one would then jump two slides
-      // at once, reading as "skips" one way and "needs two taps" the other.
-      // Since centeredLeft below is always an absolute target (computed from
-      // the slide's own offsetLeft, never from the current scroll position),
-      // re-issuing scrollTo mid-flight just smoothly redirects toward the
-      // new target instead of fighting — no need to block it at all.
+      // A tap landing while the previous smooth scroll was still animating
+      // used to just re-issue scrollTo with a new absolute target, trusting
+      // the browser to smoothly redirect the in-flight animation — but iOS
+      // Safari's handling of a second scrollTo({behavior:"smooth"}) call
+      // before the first finishes is unreliable (sometimes redirects
+      // cleanly, sometimes settles short/long of the target), which is
+      // exactly "skips a product going right, needs a second tap going
+      // left." Forcing an instant (non-smooth) jump whenever a tap lands
+      // mid-animation sidesteps that entirely — always lands exactly on the
+      // requested slide, no matter how fast someone taps. Only a tap from a
+      // fully settled state gets the smooth animation.
+      //
+      // .product-slide also carries scroll-snap-stop:always (see styles.css)
+      // so a fast finger swipe can't fling past more than one slide — but
+      // that same rule applies to scrollTo() calls from here too, and fights
+      // a multi-slide or rapid-tap jump: the browser insists on physically
+      // stopping at every intermediate snap point on the way, which is what
+      // actually caused "skips a product going right, needs a second tap
+      // going left" (not just a smooth-vs-instant timing issue). Turning
+      // scroll-snap-type off for the duration of a programmatic jump lets it
+      // land exactly on the requested slide unobstructed; re-enabling it
+      // once settled restores normal swipe-to-snap behavior.
       var settleTimer = null;
       function goTo(i, instant) {
+        if (settleTimer) instant = true;
         current = Math.max(0, Math.min(slides.length - 1, i));
         var slide = slides[current];
         // Centers the target slide within the track's own visible width —
@@ -702,6 +716,9 @@
         // previous and next cards peek in symmetrically on both sides.
         var centeredLeft = slide.offsetLeft - (track.clientWidth - slide.offsetWidth) / 2;
         var willAnimate = !instant && !reduced;
+        clearTimeout(settleTimer);
+        settleTimer = null;
+        track.style.scrollSnapType = "none";
         track.scrollTo({ left: centeredLeft, behavior: willAnimate ? "smooth" : "auto" });
         setActive(current);
         // Same reasoning as the drag handler below: don't rely solely on the
@@ -710,11 +727,16 @@
         // press landing on the right slide while the bar itself stays put
         // reads as broken even though the navigation actually worked.
         updateThumb();
+        var restoreSnap = function () { track.style.scrollSnapType = ""; };
         if (willAnimate) {
-          clearTimeout(settleTimer);
           // "scrollend" is the correct, precise signal where supported;
           // the timeout is a safety net for browsers that don't fire it.
-          settleTimer = setTimeout(function () { settleTimer = null; }, 500);
+          settleTimer = setTimeout(function () { settleTimer = null; restoreSnap(); }, 500);
+        } else {
+          // Instant jumps resolve synchronously, but restoring snap on the
+          // very next frame (rather than immediately) avoids the browser
+          // reasserting a snap point mid-jump on some engines.
+          requestAnimationFrame(restoreSnap);
         }
       }
       function setActive(i) {
