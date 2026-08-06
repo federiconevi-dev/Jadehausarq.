@@ -909,8 +909,11 @@
   }
 
   /* -----------------------------------------------------------
-     Contact form — submit to javisastre@gmail.com CC sveronicareyes@gmail.com
+     Contact form — Web3Forms (real submission, not mailto: — mailto
+     depends on the visitor's own computer having an email client
+     configured, which silently failed for people who didn't).
   ----------------------------------------------------------- */
+  var WEB3FORMS_ACCESS_KEY = "5dba8ca9-0217-4e5e-8aed-da3b491e6870";
   function initContactForm() {
     var form = $("[data-contact-form]");
     var success = $("[data-contact-success]");
@@ -931,27 +934,42 @@
       var phoneVal = (form.elements.phone ? form.elements.phone.value : "").trim();
       var messageVal = (form.elements.message ? form.elements.message.value : "").trim();
 
-      var subject = encodeURIComponent("Consulta de " + nameVal + " — Jade Haus Arq.");
-      var bodyText = encodeURIComponent(
-        "Nombre: " + nameVal + "\n" +
-        "Email: " + emailVal + "\n" +
-        "Teléfono: " + phoneVal + "\n\n" +
-        "Mensaje:\n" + messageVal
-      );
-
-      var mailtoUrl = "mailto:javisastre@gmail.com?cc=sveronicareyes@gmail.com&subject=" + subject + "&body=" + bodyText;
-
-      setTimeout(function () {
-        var firstName = nameVal.split(/\s+/)[0] || "Muchas gracias";
-        if (msg) msg.textContent = firstName + ", recibimos tu consulta. Te contactaremos a la brevedad.";
-        form.classList.remove("is-sending");
-        form.classList.add("is-sent");
-        success.setAttribute("aria-hidden", "false");
-        success.classList.add("is-visible");
-        try {
-          window.location.href = mailtoUrl;
-        } catch (err) {}
-      }, 700);
+      fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: "Consulta de " + nameVal + " — Jade Haus Arq.",
+          name: nameVal,
+          email: emailVal,
+          phone: phoneVal,
+          message: messageVal
+        })
+      })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          form.classList.remove("is-sending");
+          if (submitBtn) submitBtn.disabled = false;
+          if (data.success) {
+            var firstName = nameVal.split(/\s+/)[0] || "Muchas gracias";
+            if (msg) msg.textContent = firstName + ", recibimos tu consulta. Te contactaremos a la brevedad.";
+            form.classList.add("is-sent");
+            success.setAttribute("aria-hidden", "false");
+            success.classList.add("is-visible");
+            form.reset();
+          } else {
+            if (msg) msg.textContent = "Hubo un problema al enviar. Probá de nuevo o escribinos directamente por email.";
+            success.setAttribute("aria-hidden", "false");
+            success.classList.add("is-visible");
+          }
+        })
+        .catch(function () {
+          form.classList.remove("is-sending");
+          if (submitBtn) submitBtn.disabled = false;
+          if (msg) msg.textContent = "Hubo un problema de conexión. Probá de nuevo o escribinos directamente por email.";
+          success.setAttribute("aria-hidden", "false");
+          success.classList.add("is-visible");
+        });
     });
   }
 
