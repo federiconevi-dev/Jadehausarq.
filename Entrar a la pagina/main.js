@@ -909,12 +909,15 @@
   }
 
   /* -----------------------------------------------------------
-     Contact form — posts to contact.php on this same hosting account, so
-     the destination address lives in code here (not a third-party
-     dashboard) and delivery doesn't depend on the visitor's own computer
-     having an email client configured (that's what mailto: needed, and
-     silently failed for anyone who didn't).
+     Contact form — Web3Forms (real submission, not mailto: — mailto
+     depends on the visitor's own computer having an email client
+     configured, which silently failed for people who didn't). The
+     destination inbox is configured in the Web3Forms dashboard itself
+     (Settings → Email To), not here — that's what lets it deliver to
+     Celosias@hadehaus.com.ar without needing that mailbox's password at
+     all (you don't need someone's password to send them an email).
   ----------------------------------------------------------- */
+  var WEB3FORMS_ACCESS_KEY = "5dba8ca9-0217-4e5e-8aed-da3b491e6870";
   function initContactForm() {
     var form = $("[data-contact-form]");
     var success = $("[data-contact-success]");
@@ -935,13 +938,18 @@
       var phoneVal = (form.elements.phone ? form.elements.phone.value : "").trim();
       var messageVal = (form.elements.message ? form.elements.message.value : "").trim();
 
-      var fd = new FormData();
-      fd.append("name", nameVal);
-      fd.append("email", emailVal);
-      fd.append("phone", phoneVal);
-      fd.append("message", messageVal);
-
-      fetch("contact.php", { method: "POST", body: fd })
+      fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: "Consulta de " + nameVal + " — Jade Haus Arq.",
+          name: nameVal,
+          email: emailVal,
+          phone: phoneVal,
+          message: messageVal
+        })
+      })
         .then(function (res) { return res.json(); })
         .then(function (data) {
           form.classList.remove("is-sending");
