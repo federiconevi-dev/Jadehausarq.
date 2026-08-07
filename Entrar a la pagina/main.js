@@ -909,11 +909,12 @@
   }
 
   /* -----------------------------------------------------------
-     Contact form — Web3Forms (real submission, not mailto: — mailto
-     depends on the visitor's own computer having an email client
-     configured, which silently failed for people who didn't).
+     Contact form — posts to contact.php on this same hosting account, so
+     the destination address lives in code here (not a third-party
+     dashboard) and delivery doesn't depend on the visitor's own computer
+     having an email client configured (that's what mailto: needed, and
+     silently failed for anyone who didn't).
   ----------------------------------------------------------- */
-  var WEB3FORMS_ACCESS_KEY = "5dba8ca9-0217-4e5e-8aed-da3b491e6870";
   function initContactForm() {
     var form = $("[data-contact-form]");
     var success = $("[data-contact-success]");
@@ -934,18 +935,13 @@
       var phoneVal = (form.elements.phone ? form.elements.phone.value : "").trim();
       var messageVal = (form.elements.message ? form.elements.message.value : "").trim();
 
-      fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
-          subject: "Consulta de " + nameVal + " — Jade Haus Arq.",
-          name: nameVal,
-          email: emailVal,
-          phone: phoneVal,
-          message: messageVal
-        })
-      })
+      var fd = new FormData();
+      fd.append("name", nameVal);
+      fd.append("email", emailVal);
+      fd.append("phone", phoneVal);
+      fd.append("message", messageVal);
+
+      fetch("contact.php", { method: "POST", body: fd })
         .then(function (res) { return res.json(); })
         .then(function (data) {
           form.classList.remove("is-sending");
@@ -974,12 +970,12 @@
   }
 
   function initEmailLinks() {
-    $$('a[href*="fjsastre@fernandosastre.com"]').forEach(function (link) {
+    $$('a[href*="Celosias@hadehaus.com.ar"]').forEach(function (link) {
       link.addEventListener("click", function (e) {
         var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
         if (!isMobile) {
           e.preventDefault();
-          var gmailUrl = "https://mail.google.com/mail/?view=cm&fs=1&to=fjsastre@fernandosastre.com&su=" + encodeURIComponent("Consulta — Jade Haus Arq.");
+          var gmailUrl = "https://mail.google.com/mail/?view=cm&fs=1&to=Celosias@hadehaus.com.ar&su=" + encodeURIComponent("Consulta — Jade Haus Arq.");
           window.open(gmailUrl, "_blank", "noopener");
         }
       });
