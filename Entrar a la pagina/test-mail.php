@@ -1,7 +1,7 @@
 <?php
 // One-off test script — NOT part of the real contact form. Visiting this
 // URL directly sends a test email via authenticated SMTP (through the real
-// Celosias@hadehaus.com.ar mailbox) to confirm delivery actually works.
+// Celosias@jadehaus.com.ar mailbox) to confirm delivery actually works.
 // Delete this file from the server once the test is done.
 
 require __DIR__ . "/lib/phpmailer/Exception.php";
@@ -18,8 +18,8 @@ header("Content-Type: text/plain; charset=utf-8");
 // ============================================================
 $smtp_password = "PONE_LA_CONTRASEÑA_ACA";
 
-$smtp_host = "mail.hadehaus.com.ar";
-$smtp_user = "Celosias@hadehaus.com.ar";
+$smtp_host = "mail.jadehaus.com.ar";
+$smtp_user = "Celosias@jadehaus.com.ar";
 $smtp_port = 587;
 
 $mail = new PHPMailer(true);

@@ -914,7 +914,7 @@
      configured, which silently failed for people who didn't). The
      destination inbox is configured in the Web3Forms dashboard itself
      (Settings → Email To), not here — that's what lets it deliver to
-     Celosias@hadehaus.com.ar without needing that mailbox's password at
+     Celosias@jadehaus.com.ar without needing that mailbox's password at
      all (you don't need someone's password to send them an email).
   ----------------------------------------------------------- */
   var WEB3FORMS_ACCESS_KEY = "5dba8ca9-0217-4e5e-8aed-da3b491e6870";
@@ -978,12 +978,12 @@
   }
 
   function initEmailLinks() {
-    $$('a[href*="Celosias@hadehaus.com.ar"]').forEach(function (link) {
+    $$('a[href*="Celosias@jadehaus.com.ar"]').forEach(function (link) {
       link.addEventListener("click", function (e) {
         var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
         if (!isMobile) {
           e.preventDefault();
-          var gmailUrl = "https://mail.google.com/mail/?view=cm&fs=1&to=Celosias@hadehaus.com.ar&su=" + encodeURIComponent("Consulta — Jade Haus Arq.");
+          var gmailUrl = "https://mail.google.com/mail/?view=cm&fs=1&to=Celosias@jadehaus.com.ar&su=" + encodeURIComponent("Consulta — Jade Haus Arq.");
           window.open(gmailUrl, "_blank", "noopener");
         }
       });

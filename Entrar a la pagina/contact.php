@@ -1,6 +1,6 @@
 <?php
 // Contact form handler — sends via authenticated SMTP (through the real
-// Celosias@hadehaus.com.ar mailbox) instead of PHP's bare mail(), which
+// Celosias@jadehaus.com.ar mailbox) instead of PHP's bare mail(), which
 // tested as accepted-but-never-delivered to Gmail (no SPF/DKIM on shared
 // hosting, so Gmail silently drops it). Authenticated SMTP through a real
 // mailbox is what actually lands in the inbox.
@@ -16,14 +16,14 @@ header("Content-Type: application/json; charset=utf-8");
 
 // ============================================================
 // EDITAR ANTES DE SUBIR: poné la contraseña real del email
-// Celosias@hadehaus.com.ar entre las comillas de abajo.
+// Celosias@jadehaus.com.ar entre las comillas de abajo.
 // ============================================================
 $smtp_password = "PONE_LA_CONTRASEÑA_ACA";
 
-$smtp_host = "mail.hadehaus.com.ar";
-$smtp_user = "Celosias@hadehaus.com.ar";
+$smtp_host = "mail.jadehaus.com.ar";
+$smtp_user = "Celosias@jadehaus.com.ar";
 $smtp_port = 587;
-$to = "Celosias@hadehaus.com.ar";
+$to = "Celosias@jadehaus.com.ar";
 
 function respond($success, $message) {
   echo json_encode(["success" => $success, "message" => $message]);
