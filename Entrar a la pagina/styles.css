@@ -905,6 +905,23 @@ html[data-active-slide="3"] .menu-link[data-slide-link="3"] { display: none; }
 .cat-card-overlay {
   display: none !important;
 }
+/* Geométricos/Clásicos don't have real product content yet — on hover
+   (desktop/trackpad only, see the hover-capable media query below; a
+   hover-only reveal on touch would just re-create the classic iOS
+   "first tap shows hover" double-tap bug) the card darkens and says so,
+   instead of inviting a click into placeholder content. */
+.cat-card-soon {
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(20, 19, 17, 0.72);
+  color: var(--paper);
+  font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(1.2rem, 2.6vw, 1.6rem);
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transition: opacity .35s var(--ease-out);
+  pointer-events: none;
+}
 .cat-card-copy {
   position: absolute; left: 0; right: 0; bottom: 0; padding: clamp(1.3rem, 3vw, 2rem);
   color: var(--paper);
@@ -932,6 +949,7 @@ html[data-active-slide="3"] .menu-link[data-slide-link="3"] { display: none; }
   .cat-card:hover .cat-card-media img { transform: scale(1.09); filter: saturate(1.08); }
   .cat-card:hover .cat-card-name::after { transform: scaleX(1); }
   .cat-card:hover .cat-card-more { opacity: .85; max-height: 1.4em; transform: translateY(0); }
+  .cat-card--soon:hover .cat-card-soon { opacity: 1; }
 }
 
 /* =============================================================
